@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NTZ Fit 시뮬레이터</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚗</text></svg>">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <style>
+.member-btn {
+  display: inline-block !important;
+  background: #f3f6fa !important;
+  color: #2563eb !important;
+  border: 2px solid #e5e7eb !important;
+  border-radius: 20px !important;
+  font-weight: 600 !important;
+  font-size: 16px !important;
+  padding: 10px 22px !important;
+  margin: 0 8px 8px 0 !important;
+  cursor: pointer !important;
+  transition: all 0.2s !important;
+  outline: none !important;
+}
+.member-btn:hover {
+  background: #e0e7ff !important;
+  border-color: #2563eb !important;
+}
+.member-btn.selected {
+  background: #2563eb !important;
+  color: #fff !important;
+  border-color: #1e40af !important;
+  box-shadow: 0 2px 8px rgba(37,99,235,0.15) !important;
+  z-index: 1 !important;
+}
+</style>
+</head>
+<body>
+    <div class="container">
+        <!-- 헤더 -->
+        <header class="header">
+            <div class="logo">
+                <h1>🤝 NTZ Fit 시뮬레이터 </h1>
+                <span class="role-badge">프로덕트 디자이너</span>
+            </div>
+            <div class="progress">
+                <span class="time">09:30 AM</span>
+                <div class="scenario-info">팀 협업 시뮬레이션</div>
+            </div>
+        </header>
+        
+        <!-- 팀 소개 패널 -->
+        <div class="team-panel">
+            <h3>🏗️ 프로젝트 스쿼드</h3>
+            <div class="team-members">
+                <div class="member">
+                    <span class="avatar po">PO</span>
+                    <span>지원 (Product Owner)</span>
+                </div>
+                <div class="member">
+                    <span class="avatar designer">PD</span>
+                    <span>나 (Product Designer)</span>
+                </div>
+                <div class="member">
+                    <span class="avatar dev">DEV</span>
+                    <span>효주 (iOS Developer)</span>
+                </div>
+                <div class="member">
+                    <span class="avatar dev">DEV</span>
+                    <span>유진 (Server Developer)</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 메인 콘텐츠 영역 -->
+        <div class="main-content">            
+            <!-- 채팅 영역 -->
+            <div class="chat-container">
+                <div class="chat-messages" id="chatMessages">
+                    <!-- 메시지들이 여기에 동적으로 추가됩니다 -->
+                </div>
+                
+                <!-- 선택지 영역 -->
+                <div class="choices-container" id="choicesContainer" style="display: none;">
+                    <!-- 선택지들이 여기에 동적으로 추가됩니다 -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- 저작권 표시 -->
+        <footer class="copyright">
+            <p>조직 협업 시뮬레이터 시작 전 간단한 정보를 입력해 주세요.</p>
+            <p>© 2025 NTZ Fit 시뮬레이터. All rights reserved.</p>
+            <p>Originated by <strong>Gaon</strong> customized.LEO</p>
+        </footer>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/scenarios.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html> 
