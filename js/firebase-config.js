@@ -3,12 +3,12 @@ console.log('🔥 Firebase 설정 파일 로드 시작');
 
 // Firebase 설정
 const firebaseConfig = {
-  apiKey: "AIzaSyASXhHiYTQ2j0HA439YsI-Ac0eifkqxnGQ",
-  authDomain: "culture-simulator.firebaseapp.com",
-  projectId: "culture-simulator",
-  storageBucket: "culture-simulator.firebasestorage.app",
-  messagingSenderId: "76168310568",
-  appId: "1:76168310568:web:2ee8915b2225b0f8df6a1d"
+  apiKey: "AIzaSyAO-tMIvPnoFVoTWNxviAAsdi8rsNfInRg",
+  authDomain: "test-cb6b4.firebaseapp.com",
+  projectId: "test-cb6b4",
+  storageBucket: "test-cb6b4.firebasestorage.app",
+  messagingSenderId: "508605544544",
+  appId: "1:508605544544:web:bd149313777711a93d6b05"
 };
 
 // Firestore 데이터베이스 함수들
