@@ -695,7 +695,7 @@ body {
       transparent calc(50% - 22rem),
       #000 calc(50% - 22rem),
       #000 calc(50% + 22rem),
-      transparent calc(50% + 22rem),
+      transparent calc(100% + 22rem),
       transparent 100%
     );
     filter: blur(0.5px) saturate(110%);
