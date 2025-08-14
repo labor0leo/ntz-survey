@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>사전 설문 | NTZ Fit</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📝</text></svg>">
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    .survey-card{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:20px}
+    .survey-header{margin-bottom:16px}
+    .survey-header h2{color:var(--primary-color);font-size:22px;margin-bottom:6px}
+    .field{margin-bottom:12px}
+    .field label{display:block;font-weight:600;margin-bottom:6px}
+    .field input,.field textarea{width:100%;padding:12px;border:2px solid var(--border-color);border-radius:10px;font-size:14px}
+    .q-card{background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:12px;padding:14px;margin-bottom:12px}
+    .q-title{font-weight:700;margin-bottom:8px}
+    .option-row{display:grid;grid-template-columns:1fr 110px 110px;gap:10px;align-items:center;padding:6px 0;border-bottom:1px dashed #eaeaea}
+    .option-row:last-child{border-bottom:none}
+    .badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:999px;margin-left:6px}
+    .badge.A{background:#dbeafe;color:#1e40af}
+    .badge.B{background:#dcfce7;color:#166534}
+    .badge.C{background:#ede9fe;color:#5b21b6}
+    .badge.D{background:#fef3c7;color:#92400e}
+    .grid-head{display:grid;grid-template-columns:1fr 110px 110px;gap:10px;color:var(--text-secondary);font-size:12px;margin-bottom:4px}
+    .submit-wrap{text-align:center;margin-top:16px}
+    .submit-btn{background:var(--primary-color);color:#fff;border:none;padding:12px 24px;border-radius:10px;font-weight:700;cursor:pointer}
+    .muted{color:var(--text-secondary);font-size:12px;margin-top:6px;text-align:center}
+  </style>
+</head>
+<body>
+  <div class="container" style="max-width:920px">
+    <header class="header">
+      <div class="logo">
+        <h1>📝 사전 설문</h1>
+        <span class="role-badge">시뮬레이션 시작 전</span>
+      </div>
+      <div class="progress">
+        <span class="time">Step 1/2</span>
+        <div class="scenario-info">간단 정보 + 선호 유형 체크</div>
+      </div>
+    </header>
+
+    <div class="survey-card">
+      <div class="survey-header">
+        <h2>기본 정보</h2>
+        <p class="scenario-info">이름/이메일 입력 후 설문을 진행하세요. 완료 즉시 시뮬레이션으로 이동합니다.</p>
+      </div>
+
+      <div class="field">
+        <label for="name">이름 *</label>
+        <input id="name" placeholder="홍길동" required>
+      </div>
+      <div class="field">
+        <label for="email">이메일 (선택)</label>
+        <input id="email" type="email" placeholder="hong@example.com">
+      </div>
+
+      <div class="field">
+        <label for="openText">서술형 문항 (간단히 작성) *</label>
+        <textarea id="openText" rows="4" placeholder="업무에서 가장 중요하게 생각하는 가치를 간단히 작성해 주세요. (예: 고객 중심, 속도, 협업 등)"></textarea>
+      </div>
+    </div>
+
+    <div class="survey-card" style="margin-top:14px">
+      <div class="survey-header">
+        <h2>선택형 문항</h2>
+        <p class="scenario-info">각 문항에서 ‘가장 가깝다( +1 )’와 ‘가장 멀다( -1 )’를 각각 하나씩 선택하세요.</p>
+      </div>
+
+      <!-- 동적 문항 렌더링 타겟 -->
+      <div id="surveyQuestions"></div>
+
+      <div class="submit-wrap">
+        <button class="submit-btn" id="submitSurvey">설문 제출</button>
+        <div class="muted">제출 후 “수고하셨습니다. 이어서 시뮬레이션 검사가 진행됩니다.” 안내 후 자동 이동</div>
+      </div>
+    </div>
+
+    <footer class="copyright">
+      <p>© 2025 NTZ Fit 시뮬레이터. All rights reserved.</p>
+      <p>Originated by <strong>Gaon</strong> customized.LEO</p>
+    </footer>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-storage-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/survey.js"></script>
+</body>
+</html>
