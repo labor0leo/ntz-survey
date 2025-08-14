@@ -657,3 +657,64 @@ body {
         font-size: 10px;
     }
 }
+
+/* ===========================
+   중앙선 물결 배경 (데스크톱 전용)
+   - index의 .wave-layer 요소가 사용
+   - 본문 gradient 위에 얇은 중앙 밴드만 흐르는 느낌
+=========================== */
+.wave-layer {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(60% 40% at 50% 50%, rgba(37,99,235,0.08), transparent 60%),
+      conic-gradient(from var(--wave-angle, 0deg),
+        rgba(37,99,235,0.18) 0%,
+        transparent 35%,
+        rgba(99,102,241,0.18) 50%,
+        transparent 75%,
+        rgba(59,130,246,0.18) 100%
+      );
+    background-size: 140% 140%, 200% 200%;
+    animation: waveShift 12s linear infinite, waveDrift 8s ease-in-out infinite alternate;
+
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      transparent calc(50% - 22rem),
+      #000 calc(50% - 22rem),
+      #000 calc(50% + 22rem),
+      transparent calc(50% + 22rem),
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      transparent calc(50% - 22rem),
+      #000 calc(50% - 22rem),
+      #000 calc(50% + 22rem),
+      transparent calc(50% + 22rem),
+      transparent 100%
+    );
+    filter: blur(0.5px) saturate(110%);
+}
+
+@keyframes waveShift {
+  to { --wave-angle: 360deg; }
+}
+@keyframes waveDrift {
+  0%   { background-position: 0% 0%, 50% 50%; }
+  100% { background-position: 100% 100%, 60% 40%; }
+}
+
+/* 모션 최소화 */
+@media (prefers-reduced-motion: reduce) {
+  .wave-layer { animation: none; }
+}
+
+/* 모바일/터치 환경 및 좁은 화면에서는 비표시 */
+@media (hover: none), (pointer: coarse), (max-width: 900px) {
+  .wave-layer { display: none; }
+}
