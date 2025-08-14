@@ -465,9 +465,17 @@
                 <button class="filter-btn" data-filter="poor">미흡 (55% 미만)</button>
             </div>
             <button class="export-btn" onclick="exportToCSV()">CSV 내보내기</button>
+            <!-- ✅ 평가표 이미지 확인 버튼 추가 -->
+            <button class="export-btn" onclick="location.href='images.html'">평가표 이미지 확인</button>
         </div>
 
-        <!-- 지원자 테이블 -->
+        <!-- ✅ 상단: 설문 결과 테이블 -->
+        <div class="applicants-table" style="margin-bottom:24px">
+            <div class="table-header">설문 결과</div>
+            <div class="table-content" id="surveysTableContent"></div>
+        </div>
+
+        <!-- 하단: 지원자(시뮬레이션) 테이블 -->
         <div class="applicants-table">
             <div class="table-header">
                 <div class="applicant-row" style="cursor: default;">
@@ -491,7 +499,7 @@
     <div id="detailModal" class="modal-overlay" style="display: none;">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 id="modalTitle">지원자 상세 정보</h2>
+                <h2 id="modalTitle">상세 정보</h2>
                 <button class="close-btn" onclick="closeModal()">&times;</button>
             </div>
             <div id="modalBody">
@@ -506,37 +514,53 @@
                 this.applicants = [];
                 this.filteredApplicants = [];
                 this.currentFilter = 'all';
-                this.init();
+                // ✅ 설문 데이터
+                this.surveys = [];
             }
 
             async init() {
-                await this.loadData();
+                await Promise.all([ this.loadApplicants(), this.loadSurveys() ]);
                 this.setupEventListeners();
                 this.renderAll();
             }
 
-            async loadData() {
+            // === 시뮬 데이터 ===
+            async loadApplicants() {
                 // Firestore에서 데이터 로드 시도
                 try {
                     if (window.firestoreManager) {
-                        console.log('🔥 Firestore에서 데이터 로드 중...');
+                        console.log('🔥 Firestore에서 시뮬 데이터 로드 중...');
                         this.applicants = await window.firestoreManager.getAllApplicants();
-                        console.log('✅ Firestore 데이터 로드 완료:', this.applicants.length, '명');
+                        console.log('✅ 시뮬 데이터 로드 완료:', this.applicants.length, '명');
                     } else {
                         console.warn('⚠️ Firestore 매니저가 초기화되지 않음. localStorage 사용.');
                         throw new Error('Firestore not available');
                     }
                 } catch (error) {
-                    console.error('❌ Firestore 로드 실패:', error);
-                    console.log('📦 localStorage에서 백업 데이터 로드');
-                    
-                    // 백업으로 localStorage에서 로드
+                    console.error('❌ 시뮬 로드 실패:', error);
+                    console.log('📦 localStorage에서 백업 시뮬 데이터 로드');
                     const data = localStorage.getItem('macarong_applicants');
                     this.applicants = data ? JSON.parse(data) : [];
                 }
-                
                 this.filteredApplicants = [...this.applicants];
-                console.log('📊 총', this.applicants.length, '명의 지원자 데이터 로드 완료');
+            }
+
+            // === 설문 데이터 ===
+            async loadSurveys(){
+                try{
+                    if (window.firestoreManager){
+                        console.log('🔥 Firestore에서 설문 데이터 로드 중...');
+                        this.surveys = await window.firestoreManager.getAllSurveys();
+                        console.log('✅ 설문 데이터 로드 완료:', this.surveys.length, '건');
+                    }else{
+                        throw new Error('Firestore not available');
+                    }
+                }catch(e){
+                    console.error('❌ 설문 로드 실패:', e);
+                    console.log('📦 localStorage에서 백업 설문 데이터 로드');
+                    const data = localStorage.getItem('macarong_surveys');
+                    this.surveys = data ? JSON.parse(data) : [];
+                }
             }
 
             setupEventListeners() {
@@ -554,6 +578,64 @@
                         this.filterApplicants();
                     });
                 });
+            }
+
+            renderAll() {
+                this.renderSurveyTable(); // 상단 설문
+                this.renderStats();       // 카드
+                this.renderTable();       // 하단 시뮬
+            }
+
+            // === 설문 테이블 렌더 ===
+            renderSurveyTable(){
+                const root = document.getElementById('surveysTableContent');
+                if (!this.surveys || this.surveys.length===0){
+                    root.innerHTML = `
+                        <div class="empty-state">
+                            <h3>설문 데이터가 없습니다</h3>
+                            <p>아직 제출된 설문이 없습니다.</p>
+                        </div>`;
+                    return;
+                }
+                root.innerHTML = this.surveys.map(s => {
+                    const dt = new Date(s.createdAt).toLocaleString();
+                    const typeBadge = `<span class="score-badge ${this.typeToClass(s.topType)}" style="display:inline-block">${s.topType}</span>`;
+                    return `
+                    <div class="applicant-row" style="grid-template-columns: 1fr 120px 80px 80px 80px 80px 80px;">
+                        <div>
+                            <div class="applicant-name">${s.name}</div>
+                            <div class="applicant-email">${s.email || '-'}</div>
+                            <div style="font-size:12px;color:var(--text-secondary)">${dt}</div>
+                        </div>
+                        <div>${typeBadge}</div>
+                        <div>A:${s.scores?.A ?? 0}</div>
+                        <div>B:${s.scores?.B ?? 0}</div>
+                        <div>C:${s.scores?.C ?? 0}</div>
+                        <div>D:${s.scores?.D ?? 0}</div>
+                        <div><button class="view-btn" onclick='showSurveyDetail(${JSON.stringify(s.id)})'>보기</button></div>
+                    </div>`;
+                }).join('');
+            }
+
+            typeToClass(t){
+                if (t==="A") return "score-good";
+                if (t==="B") return "score-excellent";
+                if (t==="C") return "score-average";
+                return "score-poor";
+            }
+
+            // 통계 카드
+            renderStats() {
+                const total = this.applicants.length;
+                const avgScore = total > 0 ? 
+                    Math.round(this.applicants.reduce((sum, a) => sum + a.finalPercentage, 0) / total) : 0;
+                const excellentCount = this.applicants.filter(a => a.finalPercentage >= 85).length;
+                const goodCount = this.applicants.filter(a => a.finalPercentage >= 70).length;
+
+                document.getElementById('totalApplicants').textContent = total;
+                document.getElementById('avgScore').textContent = avgScore + '%';
+                document.getElementById('excellentCount').textContent = excellentCount;
+                document.getElementById('goodCount').textContent = goodCount;
             }
 
             filterApplicants() {
@@ -586,24 +668,6 @@
                 });
 
                 this.renderTable();
-            }
-
-            renderAll() {
-                this.renderStats();
-                this.renderTable();
-            }
-
-            renderStats() {
-                const total = this.applicants.length;
-                const avgScore = total > 0 ? 
-                    Math.round(this.applicants.reduce((sum, a) => sum + a.finalPercentage, 0) / total) : 0;
-                const excellentCount = this.applicants.filter(a => a.finalPercentage >= 85).length;
-                const goodCount = this.applicants.filter(a => a.finalPercentage >= 70).length;
-
-                document.getElementById('totalApplicants').textContent = total;
-                document.getElementById('avgScore').textContent = avgScore + '%';
-                document.getElementById('excellentCount').textContent = excellentCount;
-                document.getElementById('goodCount').textContent = goodCount;
             }
 
             renderTable() {
@@ -741,13 +805,53 @@
 
                 document.getElementById('detailModal').style.display = 'flex';
             }
+
+            // === 설문 상세 ===
+            showSurveyDetailById(id){
+                const s = this.surveys.find(x => x.id===id || x.id==id);
+                if (!s) return;
+                document.getElementById('modalTitle').textContent = `${s.name}님의 설문 상세`;
+                document.getElementById('modalBody').innerHTML = `
+                  <div class="detail-section">
+                    <h3>📄 서술형 응답</h3>
+                    <div class="detail-item"><div class="detail-value">${(s.openText||'-').replace(/\n/g,'<br>')}</div></div>
+                  </div>
+                  <div class="detail-section">
+                    <h3>🏷️ 최종 유형</h3>
+                    <div class="detail-item"><div class="detail-value">${s.topType}</div></div>
+                  </div>
+                  <div class="detail-section">
+                    <h3>📊 점수</h3>
+                    <div class="detail-grid">
+                      <div class="detail-item"><div class="detail-label">A</div><div class="detail-value">${s.scores?.A ?? 0}</div></div>
+                      <div class="detail-item"><div class="detail-label">B</div><div class="detail-value">${s.scores?.B ?? 0}</div></div>
+                      <div class="detail-item"><div class="detail-label">C</div><div class="detail-value">${s.scores?.C ?? 0}</div></div>
+                      <div class="detail-item"><div class="detail-label">D</div><div class="detail-value">${s.scores?.D ?? 0}</div></div>
+                    </div>
+                  </div>
+                  <div class="detail-section">
+                    <h3>🧾 선택 내역</h3>
+                    <div class="responses-list">
+                      ${(s.answers||[]).map((a,i)=>`
+                      <div class="response-item">
+                        <div class="response-scenario">Q${i+1}</div>
+                        <div class="response-choice">가장 가깝다: ${a.closest.text} <span class="badge ${a.closest.type}">${a.closest.type}</span></div>
+                        <div class="response-choice">가장 멀다: ${a.farthest.text} <span class="badge ${a.farthest.type}">${a.farthest.type}</span></div>
+                      </div>`).join('')}
+                    </div>
+                  </div>
+                `;
+                document.getElementById('detailModal').style.display = 'flex';
+            }
         }
 
         // 전역 함수들
         function showDetail(id) {
             window.dashboard.showApplicantDetail(id);
         }
-
+        function showSurveyDetail(id){
+            window.dashboard.showSurveyDetailById(id);
+        }
         function closeModal() {
             document.getElementById('detailModal').style.display = 'none';
         }
@@ -800,4 +904,4 @@
         <p>Developed by <strong>Gaon</strong></p>
     </footer>
 </body>
-</html> 
+</html>
