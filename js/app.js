@@ -93,46 +93,62 @@ class CultureFitSimulator {
         setTimeout(() => { this.showIntroScenarioMessage(); }, 800);
     }
 
-    // ✅ 모든 시나리오 메시지를 "완전 직렬"로 보여주고 → 선택지 표시
-    async showScenarioWithChoices(scenario) {
+    // ✅ 모든 시나리오: "디스크립션 → 메시지들 → 선택지" 완전 직렬 처리
+    async showScenarioWithChoices(scenario, includeDescription = true) {
         // 헤더 업데이트
         document.querySelector('.time').textContent = scenario.time;
         document.querySelector('.scenario-info').textContent = scenario.title;
 
-        // 메시지들을 순차로 표시
-        for (const m of scenario.messages) {
+        // 1) 디스크립션
+        if (includeDescription && scenario.description) {
+            this.addMessage({
+                sender: "상황 요약",
+                avatar: "📋",
+                content: scenario.description,
+                isUser: false
+            });
+            await this.sleep(800);
+        }
+
+        // 2) 팀 메시지(순차)
+        for (const m of (scenario.messages || [])) {
             await this.sleep(m.delay || 800);
             this.addMessage(m);
         }
+
+        // 3) 선택지
         await this.sleep(600);
         this.showChoices();
     }
 
     showIntroScenarioMessage() {
         const scenario = this.scenarioManager.startScenario(this.currentScenarioId);
+
+        // 가벼운 조직/서비스 소개만 노출(설명 중복 방지: 여기서는 디스크립션 X)
         const introMessages = [
             { sender: "🚀 조직 소개", avatar: "🚀", content: `우리는 청년 교육과 기업 교육을 연결하는 교육 조직입니다.`, isUser: false },
             { sender: "📱 서비스 소개", avatar: "📱", content: `실전 중심 커리큘럼과 협업 기반 운영으로 현장 적합도를 높입니다.`, isUser: false },
             { sender: "🤝 파트너", avatar: "🤝", content: `지자체/기업 파트너와 협력하여 청년/직무 교육을 공동 운영합니다.`, isUser: false },
-            { sender: "👥 학습자", avatar: "👥", content: `수강생들이 바로 적용 가능한 실습형 경험을 제공합니다.`, isUser: false },
-            { sender: "시나리오", avatar: "📋", content: `**${scenario.title}**\n\n${scenario.description}`, isUser: false }
+            { sender: "👥 학습자", avatar: "👥", content: `수강생들이 바로 적용 가능한 실습형 경험을 제공합니다.`, isUser: false }
         ];
 
-        // 인트로도 완전 직렬
         (async () => {
             for (const m of introMessages) {
                 await this.sleep(700);
                 this.addMessage(m);
             }
             await this.sleep(700);
-            this.showScenarioWithChoices(scenario);
+
+            // ✅ 시나리오1도 동일 흐름: 디스크립션부터 시작
+            this.showScenarioWithChoices(scenario, true);
         })();
     }
 
     startScenario(scenarioId) {
         const scenario = this.scenarioManager.startScenario(scenarioId);
         if (!scenario) return;
-        this.showScenarioWithChoices(scenario);
+        // ✅ 항상 디스크립션을 먼저 보여줌
+        this.showScenarioWithChoices(scenario, true);
     }
 
     addMessage(message) {
@@ -180,15 +196,10 @@ class CultureFitSimulator {
     }
 
     async selectChoice(choice) {
-        // 사용자 선택 표시
-        this.addMessage({
-            sender: "나 (Product Designer)",
-            avatar: "PD",
-            content: choice.text,
-            isUser: true
-        });
+        // 사용자 선택
+        this.addMessage({ sender: "나 (Product Designer)", avatar: "PD", content: choice.text, isUser: true });
 
-        // 기록 및 점수 반영
+        // 기록/점수
         this.applicantData.responses.push({
             scenarioId: this.currentScenarioId,
             scenarioTitle: this.scenarioManager.currentScenario.title,
@@ -200,10 +211,10 @@ class CultureFitSimulator {
         });
         const result = this.scenarioManager.selectChoice(choice.id);
 
-        // 선택지 숨김
+        // 선택지 닫기
         document.getElementById('choicesContainer').style.display = 'none';
 
-        // 코멘트(해설/피드백) → 다음 시나리오
+        // 코멘트 → 다음
         await this.sleep(600);
         if (choice.isCultureFit) {
             this.addMessage({
