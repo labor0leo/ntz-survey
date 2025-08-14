@@ -58,7 +58,7 @@ class CultureFitSimulator {
                 </div>
                 <div class="input-group">
                     <label for="applicantEmail">이메일 (선택)</label>
-                    <input type="email" i다.`, isUser: false },
+                    <input type="email" id.`, isUser: false },
             { sender: "👥 학습자", avatar: "👥", content: `수강생들이 바로 적용 가능한 실습형 경험을 제공합니다.`, isUser: false }
         ];
 
