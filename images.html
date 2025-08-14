@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>평가표 이미지 확인</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+    .card{background:#fff;border-radius:12px;box-shadow:var(--shadow);padding:10px}
+    .card img{width:100%;height:150px;object-fit:cover;border-radius:8px}
+    .card .meta{font-size:12px;color:var(--text-secondary);margin-top:6px}
+    .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+  </style>
+</head>
+<body>
+  <div class="container" style="max-width:1000px">
+    <header class="header">
+      <div class="logo">
+        <h1>🖼️ 평가표 이미지 확인</h1>
+        <span class="role-badge">Storage: evaluation_images/</span>
+      </div>
+    </header>
+
+    <div class="topbar">
+      <button class="start-button" onclick="location.href='admin.html'">← 관리자 대시보드</button>
+      <button class="start-button" onclick="refresh()">새로고침</button>
+    </div>
+
+    <div id="grid" class="grid"></div>
+
+    <footer class="copyright">
+      <p>© 2025 NTZ Fit 시뮬레이터</p>
+    </footer>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-storage-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script>
+    async function listImages(){
+      const grid = document.getElementById('grid');
+      grid.innerHTML = '<div class="empty-state"><h3>로딩 중...</h3></div>';
+      try{
+        if(!firebase?.storage) throw new Error("Storage SDK not loaded");
+        const storage = firebase.storage();
+        const ref = storage.ref('evaluation_images');
+        const res = await ref.listAll();
+        if (!res.items.length){
+          grid.innerHTML = '<div class="empty-state"><h3>이미지가 없습니다</h3><p>evaluation_images/ 폴더에 업로드해주세요.</p></div>';
+          return;
+        }
+        const cards = await Promise.all(res.items.map(async (itemRef)=>{
+          const url = await itemRef.getDownloadURL();
+          const meta = await itemRef.getMetadata();
+          return `
+            <div class="card">
+              <img src="${url}" alt="${itemRef.name}"/>
+              <div class="meta">
+                <div><strong>${itemRef.name}</strong></div>
+                <div>${new Date(meta.updated).toLocaleString()}</div>
+                <div><a href="${url}" target="_blank">다운로드</a></div>
+              </div>
+            </div>`;
+        }));
+        grid.innerHTML = cards.join('');
+      }catch(e){
+        console.error(e);
+        grid.innerHTML = '<div class="empty-state"><h3>목록을 불러오지 못했습니다</h3></div>';
+      }
+    }
+    function refresh(){ listImages(); }
+    document.addEventListener('DOMContentLoaded', listImages);
+  </script>
+</body>
+</html>
