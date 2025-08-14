@@ -177,7 +177,7 @@ const scenarios = {
                 text: "공유 문서 기반으로 업무를 진행하고, 꼭 필요한 경우에만 회의를 소집하겠습니다. 긴급 사안은 메신저나 화상회의로 신속히 대응하겠습니다.",
                 points: { customer: 4, partnership: 4, worklife: 3, innovation: 3, efficiency: 6 },
                 isCultureFit: false,
-                nextMessage: { sender: "유진", avatar: "DEG", content: "회의 피로도가 줄어들 수 있겠네요. 상황을 고려해서 현명하게 판단해야겠어요요.", isUser: false }
+                nextMessage: { sender: "유진", avatar: "DEG", content: "회의 피로도가 줄어들 수 있겠네요. 상황을 고려해서 현명하게 판단해야겠어요.", isUser: false }
             }
         ]
     }
