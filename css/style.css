@@ -368,8 +368,6 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-
-
 .choice-number {
     display: block;
     width: 20px;
@@ -383,8 +381,6 @@ body {
     font-weight: 600;
     margin-bottom: 6px;
 }
-
-
 
 /* 애니메이션 */
 @keyframes fadeIn {
@@ -660,4 +656,4 @@ body {
     .copyright p {
         font-size: 10px;
     }
-} 
+}
