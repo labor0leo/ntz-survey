@@ -13,7 +13,7 @@
     .survey-header h2{color:var(--primary-color);font-size:22px;margin-bottom:6px}
     .field{margin-bottom:12px}
     .field label{display:block;font-weight:600;margin-bottom:6px}
-    .field input,.field textarea{width:100%;padding:12px;border:2px solid var(--border-color);border-radius:10px;font-size:14px}
+    .field textarea{width:100%;padding:12px;border:2px solid var(--border-color);border-radius:10px;font-size:14px}
     .q-card{background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:12px;padding:14px;margin-bottom:12px}
     .q-title{font-weight:700;margin-bottom:8px}
     .option-row{display:grid;grid-template-columns:1fr 110px 110px;gap:10px;align-items:center;padding:6px 0;border-bottom:1px dashed #eaeaea}
@@ -37,29 +37,20 @@
         <span class="role-badge">시뮬레이션 시작 전</span>
       </div>
       <div class="progress">
-        <span class="time">Step 1/2</span>
-        <div class="scenario-info">간단 정보 + 선호 유형 체크</div>
+        <span class="time">Step 2/2</span>
+        <div class="scenario-info">선호 유형 체크</div>
       </div>
     </header>
 
     <div class="survey-card">
       <div class="survey-header">
-        <h2>기본 정보</h2>
-        <p class="scenario-info">이름/이메일 입력 후 설문을 진행하세요. 완료 즉시 시뮬레이션으로 이동합니다.</p>
+        <h2>서술형 문항</h2>
+        <p class="scenario-info">간단히 작성해주세요. (필수)</p>
       </div>
 
       <div class="field">
-        <label for="name">이름 *</label>
-        <input id="name" placeholder="홍길동" required>
-      </div>
-      <div class="field">
-        <label for="email">이메일 (선택)</label>
-        <input id="email" type="email" placeholder="hong@example.com">
-      </div>
-
-      <div class="field">
-        <label for="openText">서술형 문항 (간단히 작성) *</label>
-        <textarea id="openText" rows="4" placeholder="업무에서 가장 중요하게 생각하는 가치를 간단히 작성해 주세요. (예: 고객 중심, 속도, 협업 등)"></textarea>
+        <label for="openText">업무에서 가장 중요하게 생각하는 가치</label>
+        <textarea id="openText" rows="4" placeholder="예: 고객 중심, 속도, 협업 등"></textarea>
       </div>
     </div>
 
