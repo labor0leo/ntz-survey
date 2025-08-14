@@ -11,6 +11,8 @@
   <style>
     /* ===== Hero 레이아웃 ===== */
     .hero-wrap{
+      position: relative;            /* wave-layer 위에 오도록 */
+      z-index: 1;
       min-height: 100vh;
       display: grid;
       grid-template-columns: 1.1fr 1fr;
@@ -137,7 +139,10 @@
   </style>
 </head>
 <body>
-  
+
+  <!-- 중앙 물결 배경 (데스크톱 전용) -->
+  <div class="wave-layer" aria-hidden="true"></div>
+
   <div class="hero-wrap">
     <!-- 왼쪽: 카피 -->
     <div class="hero-copy">NEW WAY : NTZ.</div>
