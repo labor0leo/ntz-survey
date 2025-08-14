@@ -188,7 +188,7 @@ const SURVEY_PAGE = {
       div.className = "q-card";
       div.innerHTML = `
         <div class="q-title">${q.title}</div>
-        <div class="grid-head"><div>항목</div><div>가장 가깝다 (+1)</div><div>가장 멀다 (-1)</div></div>
+        <div class="grid-head"><div>항목</div><div>가장 가깝다</div><div>가장 멀다</div></div>
         <div>
           ${q.options.map((opt, i) => `
             <div class="option-row">
