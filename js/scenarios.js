@@ -9,9 +9,9 @@ const scenarios = {
         time: "09:30 AM",
         description: "최근 ‘취업 준비생 커리어 설계 과정’을 마친 뒤, 참가자 설문에서 60%가 “이론은 이해했지만 실전 적용이 어렵다”는 의견을 남겼습니다. 다음 기수 개강까지 3주 남았으며, 추가 예산은 없습니다.",
         messages: [
-            { id: 1, sender: "정우 (프로젝트 매니저)", avatar: "PM",  content: "피드백이 특히 취업을 앞둔 수강생에게서 많았어요. 다음 기수 커리큘럼에 어떻게 반영할까요?", isUser: false, delay: 800 },
+            { id: 1, sender: "정우 (프로젝트 매니저)", avatar: "PM",  content: "이 피드백이 특히 취업을 앞둔 수강생들에게서 많이 나왔어요. 다음 기수 커리큘럼에 어떻게 반영할까요?", isUser: false, delay: 800 },
             { id: 2, sender: "지원 (교육운영 매니저)",   avatar: "COP", content: "예산 증액은 불가하지만 시간표 조정은 가능합니다.", isUser: false, delay: 800 },
-            { id: 3, sender: "유진진 (콘텐츠 디자이너)", avatar: "DEG", content: "이론을 줄이고 실습을 늘리거나 외부 전문가 초청은 어떨까요?", isUser: false, delay: 800 }
+            { id: 3, sender: "유진 (콘텐츠 디자이너)", avatar: "DEG", content: "이론을 줄이고 실습 비중을 늘리면 해결될까요? 아니면 외부 전문가를 초청할까요?", isUser: false, delay: 800 }
         ],
         choices: [
             {
@@ -45,9 +45,9 @@ const scenarios = {
         time: "10:45 AM",
         description: "뉴팀즈는 서울시와 ‘청년 면접 역량 강화 프로그램’을 공동 기획하고 있습니다. 그러나 예산 삭감으로 ‘1:1 커리어 상담’ 세션 삭제 제안이 들어왔습니다. 이 세션은 참가자 만족도 1위 모듈입니다.",
         messages: [
-            { id: 1, sender: "정우", avatar: "PM", content: "1:1 상담 세션을 빼자는 제안이 왔습니다.", isUser: false, delay: 800 },
-            { id: 2, sender: "은혜 (파트너십)", avatar: "COP", content: "그 세션이 빠지면 차별성이 줄어요.", isUser: false, delay: 800 },
-            { id: 3, sender: "효주 (운영팀)", avatar: "COP", content: "예산 범위 내 운영 조건을 고수하네요.", isUser: false, delay: 800 }
+            { id: 1, sender: "정우", avatar: "PM", content: "서울시 측에서 예산 삭감안을 들고 왔어요. 1:1 상담 세션을 빼자는 제안이에요.", isUser: false, delay: 800 },
+            { id: 2, sender: "은혜 (파트너십)", avatar: "COP", content: "그 세션이 빠지면 교육 차별성이 줄어들 텐데요.", isUser: false, delay: 800 },
+            { id: 3, sender: "효주 (운영팀)", avatar: "COP", content: "예산 범위 내에서 운영하라는 조건을 고수하고 있네요.", isUser: false, delay: 800 }
         ],
         choices: [
             {
@@ -81,9 +81,9 @@ const scenarios = {
         time: "14:30 PM",
         description: "AI 기반 학습 피드백 시스템 도입이 제안됐습니다. 이 시스템은 과제·퀴즈 결과를 분석해 개인별 취약 역량을 진단하고, 맞춤형 자료를 추천합니다. 초기 개발비는 1천만 원이며, 강사 교육과 매뉴얼 개편이 필요합니다.",
         messages: [
-            { id: 1, sender: "정우", avatar: "PM", content: "맞춤형 경험을 제공하지만 초기 비용과 리소스가 큽니다.", isUser: false, delay: 800 },
-            { id: 2, sender: "지원", avatar: "COP", content: "외주 가능하지만 강사 교육은 필수입니다.", isUser: false, delay: 800 },
-            { id: 3, sender: "효주", avatar: "COP", content: "기존 일정에 영향이 있을 듯합니다.", isUser: false, delay: 800 }
+            { id: 1, sender: "정우", avatar: "PM", content: "도입하면 맞춤형 교육 경험을 제공할 수 있지만, 초기 비용과 리소스가 크네요.", isUser: false, delay: 800 },
+            { id: 2, sender: "지원", avatar: "COP", content: "기술 구현은 외주를 맡기면 가능할 것 같지만, 강사 교육이 필수입니다.", isUser: false, delay: 800 },
+            { id: 3, sender: "효주", avatar: "COP", content: "기존 커리큘럼 일정에 영향이 있을 것 같아요.", isUser: false, delay: 800 }
         ],
         choices: [
             {
@@ -117,9 +117,9 @@ const scenarios = {
         time: "16:00 PM",
         description: "뉴팀즈는 청년 교육 외에 기업 맞춤형 교육 진출을 검토 중입니다. 내년 상반기에 대기업 2곳에서 제안이 들어왔지만, 인력과 예산이 분산될 수 있습니다.",
         messages: [
-            { id: 1, sender: "정우", avatar: "PM", content: "B2B는 단가가 높지만 리소스가 분산될 수 있어요.", isUser: false, delay: 800 },
-            { id: 2, sender: "지원", avatar: "COP", content: "청년 과정 품질 저하가 생길 수도 있겠네요.", isUser: false, delay: 800 },
-            { id: 3, sender: "은혜", avatar: "COP", content: "협업과 역할 분담이 중요해집니다.", isUser: false, delay: 800 }
+            { id: 1, sender: "정우", avatar: "PM", content: "B2B 교육 계약은 단가가 높아요. 하지만 청년 교육 리소스가 줄 수 있습니다.", isUser: false, delay: 800 },
+            { id: 2, sender: "지원", avatar: "COP", content: "우리 팀 리소스를 나누면 청년 과정의 품질이 떨어질 수 있겠네요.", isUser: false, delay: 800 },
+            { id: 3, sender: "은혜", avatar: "COP", content: "팀 내 협업과 역할 분담이 중요해질 것 같습니다.", isUser: false, delay: 800 }
         ],
         choices: [
             {
