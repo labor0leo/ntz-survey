@@ -1,30 +1,80 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>시작 페이지</title>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NTZ Fit 시작하기</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    .landing{max-width:720px;margin:0 auto}
+    .hero{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:24px}
+    .hero h1{color:var(--primary-color);font-size:24px;margin-bottom:8px}
+    .hero p{color:var(--text-secondary)}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+    .field{display:flex;flex-direction:column;gap:6px}
+    .field label{font-weight:600}
+    .field input{padding:12px;border:2px solid var(--border-color);border-radius:10px;font-size:14px}
+    .cta{margin-top:16px;text-align:center}
+    .cta button{background:var(--primary-color);color:#fff;border:none;padding:12px 22px;border-radius:12px;font-weight:700;cursor:pointer}
+    @media(max-width:720px){.grid{grid-template-columns:1fr}}
+  </style>
 </head>
 <body>
-<div class="modal-overlay" id="startModal">
-    <div class="modal-content">
-        <h3>시작하기</h3>
-        <p>이름과 생년월일을 입력해주세요.</p>
-        <div class="input-group">
-            <label for="name">이름</label>
-            <input type="text" id="name" placeholder="홍길동">
-        </div>
-        <div class="input-group">
-            <label for="birth">생년월일</label>
-            <input type="date" id="birth">
-        </div>
-        <div class="modal-buttons">
-            <button class="start-button" id="startSurvey">설문 시작</button>
-        </div>
-    </div>
-</div>
+  <div class="container landing">
+    <header class="header">
+      <div class="logo">
+        <h1>NTZ Fit 체험 시작</h1>
+        <span class="role-badge">Step 0/2</span>
+      </div>
+      <div class="progress">
+        <span class="time">Welcome</span>
+        <div class="scenario-info">이름·생년월일 입력 → 설문 → 시뮬레이션</div>
+      </div>
+    </header>
 
-<script src="js/index.js"></script>
+    <section class="hero">
+      <h1>간단한 정보 입력</h1>
+      <p>다음 단계에서 사전 설문을 진행한 후, 시뮬레이션으로 이동합니다.</p>
+
+      <div class="grid">
+        <div class="field">
+          <label for="name">이름 *</label>
+          <input id="name" placeholder="홍길동" required>
+        </div>
+        <div class="field">
+          <label for="dob">생년월일 *</label>
+          <input id="dob" type="date" required>
+        </div>
+      </div>
+
+      <div class="field" style="margin-top:8px">
+        <label for="email">이메일 (선택)</label>
+        <input id="email" type="email" placeholder="hong@example.com">
+      </div>
+
+      <div class="cta">
+        <button id="goSurvey">다음: 사전 설문 진행</button>
+      </div>
+    </section>
+
+    <footer class="copyright">
+      <p>© 2025 NTZ Fit 시뮬레이터. All rights reserved.</p>
+      <p>Originated by <strong>Gaon</strong> customized.LEO</p>
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById('goSurvey').addEventListener('click', () => {
+      const name = document.getElementById('name').value.trim();
+      const dob  = document.getElementById('dob').value.trim();
+      const email= document.getElementById('email').value.trim();
+      if (!name || !dob){ alert('이름과 생년월일을 입력해주세요.'); return; }
+      const ctx = { name, dob, email, surveyCompleted:false };
+      localStorage.setItem('macarong_user', JSON.stringify(ctx));
+      location.href = 'survey.html';
+    });
+  </script>
 </body>
 </html>
