@@ -1,33 +1,35 @@
-// 조직 협업 시뮬레이터 시나리오 데이터
+// 조직 협업 시뮬레이터 시나리오 데이터 (교육 도메인 버전)
+// 점수 키: customer(고객중심), partnership(파트너십), worklife(회사생활), innovation(혁신), efficiency(효율성)
+
 const scenarios = {
-    // 시나리오 1: 정비소 파트너 불만 처리
+    // 문항 1 – 교육 후 피드백 반영 (고객중심)
     scenario1: {
         id: 1,
-        title: "정비소 파트너 불만 해결",
+        title: "교육 후 피드백 반영 (고객중심)",
         time: "09:30 AM",
-        description: "정비소 파트너가 우리 서비스의 수수료 정책에 불만을 제기했습니다.",
+        description: "‘취업 준비생 커리어 설계 과정’ 설문에서 60%가 ‘이론은 이해했지만 실전 적용이 어렵다’고 답했습니다. 다음 기수까지 3주, 추가 예산 없음.",
         messages: [
             {
                 id: 1,
-                sender: "지원 (PO)",
+                sender: "정우 (프로젝트 매니저)",
                 avatar: "PO",
-                content: "어제 강남구 정비소 사장님이 연락을 주셨어요. 우리 서비스 수수료가 타 플랫폼 대비 높다고 하시면서, 계약 재검토를 요청하셨습니다. 이미 5년간 함께 해온 파트너인데... 어떻게 접근하면 좋을까요?",
+                content: "해당 피드백이 특히 취업을 앞둔 수강생들에게서 많이 나왔어요. 다음 기수 커리큘럼에 어떻게 반영할까요?",
                 isUser: false,
                 delay: 1000
             },
             {
                 id: 2,
-                sender: "효주 (iOS Developer)",
+                sender: "지원 (교육운영 매니저)",
                 avatar: "DEV",
-                content: "기술적으로는 수수료율 조정이 어렵지 않아요. 하지만 다른 파트너들과의 형평성 문제가 있을 것 같은데요?",
+                content: "예산 증액은 불가능하지만, 시간표 조정은 가능합니다.",
                 isUser: false,
                 delay: 2000
             },
             {
                 id: 3,
-                sender: "유진 (PO)",
-                avatar: "PO",
-                content: "맞아요. 그런데 이 파트너는 매월 예약량이 상위 10% 안에 드는 우수 파트너거든요. 어떤 방향으로 해결하면 좋을까요?",
+                sender: "유진진 (콘텐츠 디자이너)",
+                avatar: "DEV",
+                content: "이론을 줄이고 실습 비중을 늘리면 해결될까요? 아니면 외부 전문가를 초청할까요?",
                 isUser: false,
                 delay: 3000
             }
@@ -35,71 +37,71 @@ const scenarios = {
         choices: [
             {
                 id: "1a",
-                text: "먼저 파트너의 상황을 자세히 듣고, 장기적인 파트너십 관점에서 상생 방안을 모색해보겠습니다. 실적 기반 차등 수수료나 추가 혜택을 검토해보죠.",
-                points: { customer: 8, partnership: 15, innovation: 5, growth: 8, efficiency: 5 },
+                text: "현업 전문가 2명을 초청해 실제 사례/경험을 강의에 포함하고, 바로 활용 가능한 실습 자료/예시 문서를 제작, 충분한 Q&A로 현장 어려움까지 해결하겠습니다.",
+                points: { customer: 6, partnership: 5, worklife: 3, innovation: 4, efficiency: 2 },
                 isCultureFit: true,
                 nextMessage: {
-                    sender: "지원 (PO)",
+                    sender: "정우 (프로젝트 매니저)",
                     avatar: "PO",
-                    content: "좋은 접근이네요! 파트너십은 우리 조직의 핵심 가치죠. 장기적인 관점에서 상생할 수 있는 방안을 찾아보겠습니다.",
+                    content: "좋습니다. 수강생들이 체감할 실전성을 빠르게 높일 수 있겠네요!",
                     isUser: false
                 }
             },
             {
                 id: "1b",
-                text: "수수료 정책은 전체적인 비즈니스 전략이니까 쉽게 바꿀 수 없어요. 대신 마케팅 지원이나 다른 부가 서비스로 보상하는 건 어떨까요?",
-                points: { customer: 3, partnership: 5, innovation: 5, growth: 3, efficiency: 8 },
+                text: "기존 강의 틀은 유지하되, 과제를 실제 채용 프로세스 시뮬레이션으로 전환하겠습니다. 모의 직무분석→자소서→면접 PT까지 이어지는 실전형 과제로 간극을 줄이겠습니다.",
+                points: { customer: 5, partnership: 4, worklife: 4, innovation: 5, efficiency: 2 },
                 isCultureFit: false,
                 nextMessage: {
-                    sender: "효주 (iOS Developer)",
+                    sender: "유진진 (콘텐츠 디자이너)",
                     avatar: "DEV",
-                    content: "음... 그것도 방법이긴 하지만, 파트너의 핵심 고민을 해결해주지는 못할 것 같아요.",
+                    content: "실습 흐름이 좋아요. 일정 배분과 룹 피드백 구조만 잘 잡으면 되겠네요.",
                     isUser: false
                 }
             },
             {
                 id: "1c",
-                text: "다른 플랫폼 수수료율을 조사해서 시장 평균과 비교해보고, 우리 서비스의 차별화된 가치를 명확히 제시해보겠습니다.",
-                points: { customer: 5, partnership: 8, innovation: 8, growth: 8, efficiency: 8 },
+                text: "교육 종료 후에도 활용 가능한 인턴십/현장 체험처 목록과 지원 가이드북을 제작해 제공하겠습니다. 장기적 교육 효과와 성장 기반을 마련하겠습니다.",
+                points: { customer: 4, partnership: 4, worklife: 5, innovation: 3, efficiency: 4 },
                 isCultureFit: false,
                 nextMessage: {
-                    sender: "은혜 (Server Developer)",
+                    sender: "지원 (교육운영 매니저)",
                     avatar: "DEV",
-                    content: "데이터 기반 접근은 좋지만, 파트너의 감정적인 부분도 고려해야 할 것 같아요.",
+                    content: "사후 지원 체계를 보강하는 접근이네요. 제작 범위와 품질 관리가 핵심이겠어요.",
                     isUser: false
                 }
             }
         ]
     },
 
-    // 시나리오 2: 고객 불편 사항 해결
+    // 문항 2 – 지자체 협력 예산 축소 (파트너십)
     scenario2: {
         id: 2,
-        title: "고객 피드백 - 예약 취소 불편",
+        title: "지자체 협력 예산 축소 (파트너십)",
         time: "10:45 AM",
-        description: "고객들이 예약 취소 과정이 복잡하다는 피드백을 지속적으로 제기하고 있습니다.",
+        description: "서울시와 공동 기획 중인 ‘청년 면접 역량 강화 프로그램’에서 예산 삭감으로 1:1 상담 세션 삭제 제안. 해당 세션은 만족도 1위 모듈.",
         messages: [
             {
                 id: 1,
-                sender: "지훈 (PO)",
+                sender: "정우 (프로젝트 매니저)",
                 avatar: "PO",
-                content: "CS팀에서 보고받은 건인데, 최근 한 달간 예약 취소 관련 문의가 30% 증가했어요. 고객들이 취소 과정이 복잡하다고 하네요. 현재는 앱에서 취소하려면 정비소에 전화 확인 후 처리되는 구조잖아요?",
+                content: "서울시 측에서 예산 삭감안을 들고 왔어요. 1:1 상담 세션을 빼자는 제안입니다.",
                 isUser: false,
                 delay: 1000
             },
             {
                 id: 2,
-                sender: "민지 (iOS Developer)",
+                sender: "은혜 (파트너십 매니저)",
                 avatar: "DEV",
-                content: "기술적으로는 원클릭 취소가 가능해요. 하지만 정비소 입장에서는 갑작스러운 취소로 인한 손실을 걱정할 수 있어요.",
+                content: "그 세션이 빠지면 교육 차별성이 줄어들 텐데요.",
                 isUser: false,
                 delay: 2000
             },
             {
                 id: 3,
-                sender: "지훈 (PO)",
-                avatar: "PO",
-                content: "맞아요. 고객 편의성과 파트너 보호, 둘 다 중요한 문제네요. 어떻게 균형을 맞출 수 있을까요?",
+                sender: "효주 (운영팀)",
+                avatar: "DEV",
+                content: "예산 범위 내에서 운영하라는 조건을 고수하고 있네요.",
                 isUser: false,
                 delay: 3000
             }
@@ -107,71 +109,71 @@ const scenarios = {
         choices: [
             {
                 id: "2a",
-                text: "고객 입장에서 생각해보면 간편한 취소가 필요해요. 시간대별 차등 취소 정책을 만들어서 24시간 전에는 무료 취소, 그 이후는 일정 수수료를 적용하는 건 어떨까요?",
-                points: { customer: 15, partnership: 8, innovation: 10, growth: 5, efficiency: 10 },
+                text: "1:1 코칭 효과를 수치/사례로 정리해 서울시에 제시하겠습니다. 핵심 모듈 유지를 설득하고, 대신 홍보물/부가 프로그램 일부 축소를 제안하겠습니다.",
+                points: { customer: 5, partnership: 6, worklife: 3, innovation: 4, efficiency: 2 },
                 isCultureFit: true,
                 nextMessage: {
-                    sender: "지훈 (PO)",
-                    avatar: "PO",
-                    content: "훌륭해요! 고객 중심적 사고네요. 고객과 파트너 모두를 고려한 균형잡힌 해결책이에요.",
+                    sender: "은혜 (파트너십 매니저)",
+                    avatar: "DEV",
+                    content: "핵심 가치를 지키면서도 현실적인 절충안이네요. 파트너 신뢰에도 긍정적이에요.",
                     isUser: false
                 }
             },
             {
-                id: "2b", 
-                text: "정비소 파트너들의 손실을 최소화하는 게 우선이에요. 현재 정책을 유지하되 CS 응답 시간을 단축시키는 방향으로 개선해보죠.",
-                points: { customer: 3, partnership: 10, innovation: 3, growth: 3, efficiency: 5 },
+                id: "2b",
+                text: "예산 축소를 수용하되, 코칭을 그룹 세션으로 전환하겠습니다. 동일 인력/예산으로 더 많은 참가자가 혜택을 보도록 하고 상호 피드백을 강화하겠습니다.",
+                points: { customer: 4, partnership: 5, worklife: 4, innovation: 4, efficiency: 3 },
                 isCultureFit: false,
                 nextMessage: {
-                    sender: "민지 (iOS Developer)",
+                    sender: "효주 (운영팀)",
                     avatar: "DEV",
-                    content: "파트너 보호는 중요하지만, 고객 경험이 악화되면 장기적으로 모두에게 손해가 될 수 있어요.",
+                    content: "운영 효율은 올라가겠지만, 1:1 품질을 얼마나 보완할 수 있는지가 관건이겠습니다.",
                     isUser: false
                 }
             },
             {
                 id: "2c",
-                text: "사용자 리서치를 통해 정확한 취소 패턴과 이유를 분석한 후, 데이터 기반으로 최적의 정책을 수립해보겠습니다.",
-                points: { customer: 8, partnership: 5, innovation: 8, growth: 8, efficiency: 5 },
+                text: "외부 멘토 재능기부와 온라인 상담 플랫폼을 병행해 추가 예산 없이 1:1 효과를 유지하겠습니다. 핵심 가치를 지키며 파트너 신뢰도 유지하겠습니다.",
+                points: { customer: 4, partnership: 4, worklife: 5, innovation: 3, efficiency: 4 },
                 isCultureFit: false,
                 nextMessage: {
-                    sender: "준호 (Server Developer)",
-                    avatar: "DEV",
-                    content: "체계적인 접근이지만, 고객들이 지금 당장 불편을 겪고 있다는 점도 고려해야 해요.",
+                    sender: "정우 (프로젝트 매니저)",
+                    avatar: "PO",
+                    content: "대안 자원 동원은 좋습니다. 품질관리와 책임소재를 명확히 하죠.",
                     isUser: false
                 }
             }
         ]
     },
 
-    // 시나리오 3: 혁신적인 기능 제안
+    // 문항 3 – AI 학습 피드백 시스템 도입 (혁신)
     scenario3: {
         id: 3,
-        title: "AI 기반 정비 진단 기능 제안",
+        title: "AI 학습 피드백 시스템 도입 (혁신)",
         time: "14:30 PM",
-        description: "개발팀에서 AI를 활용한 정비 사전 진단 기능을 제안했습니다.",
+        description: "과제/퀴즈 분석 기반 개인별 취약 역량 진단 및 맞춤 자료 추천 시스템 제안. 초기 개발비 1천만 원, 강사 교육/매뉴얼 개편 필요.",
         messages: [
             {
                 id: 1,
-                sender: "준호 (Server Developer)",
-                avatar: "DEV",
-                content: "최근 ChatGPT나 Claude 같은 AI가 발전하면서, 우리 서비스에도 AI 기능을 도입해보면 어떨까 생각했어요. 고객이 차량 증상을 설명하면 AI가 예상 정비 항목과 비용을 미리 알려주는 기능이요.",
+                sender: "정우 (프로젝트 매니저)",
+                avatar: "PO",
+                content: "도입하면 맞춤형 교육 경험을 제공할 수 있지만, 초기 비용과 리소스가 크네요.",
                 isUser: false,
                 delay: 1000
             },
             {
                 id: 2,
-                sender: "민지 (iOS Developer)",
+                sender: "지원 (교육운영 매니저)",
                 avatar: "DEV",
-                content: "기술적으로 흥미로운 아이디어네요! 하지만 AI가 잘못 진단하면 고객이나 정비소 모두 곤란할 수 있어요. 책임 소재도 애매하고...",
+                content: "외주로 가능하지만 강사 교육은 필수일 것 같아요.",
                 isUser: false,
                 delay: 2000
             },
             {
                 id: 3,
-                sender: "지훈 (PO)",
-                avatar: "PO",
-                content: "혁신적인 아이디어지만 신중하게 접근해야 할 것 같아요. 프로덕트 디자이너 관점에서는 어떻게 생각하세요?",
+                sender: "효주 (운영팀)",
+                avatar: "DEV",
+                content: "기존 커리큘럼 일정에도 영향이 있을 듯합니다.",
                 isUser: false,
                 delay: 3000
             }
@@ -179,71 +181,71 @@ const scenarios = {
         choices: [
             {
                 id: "3a",
-                text: "아직은 리스크가 너무 커요. AI 진단이 틀렸을 때의 법적 책임 문제나 정비소와의 관계 악화 가능성을 고려하면, 지금은 시기상조인 것 같아요.",
-                points: { customer: 3, partnership: 8, innovation: 2, growth: 3, efficiency: 5 },
+                text: "이번 분기에 전 과정 전면 도입하겠습니다. 개인별 맞춤 피드백으로 차별화를 만들고, 마케팅에서도 강조해 신규 유입을 노리겠습니다.",
+                points: { customer: 4, partnership: 3, worklife: 4, innovation: 6, efficiency: 3 },
                 isCultureFit: false,
                 nextMessage: {
-                    sender: "준호 (Server Developer)",
+                    sender: "효주 (운영팀)",
                     avatar: "DEV",
-                    content: "리스크 관리는 중요하지만, 혁신 없이는 경쟁에서 뒤처질 수도 있어요.",
+                    content: "도전적이네요. 일정과 교육 전환 부담을 감수해야 합니다.",
                     isUser: false
                 }
             },
             {
                 id: "3b",
-                text: "정말 혁신적인 아이디어네요! 고객에게 큰 가치를 줄 수 있어요. 정확도 문제는 '참고용'이라고 명시하고, 단계적으로 도입해보면 어떨까요? MVP부터 시작해서 피드백을 받아가며 개선하죠.",
-                points: { customer: 10, partnership: 5, innovation: 15, growth: 10, efficiency: 8 },
+                text: "20명 규모 파일럿을 먼저 운영해 효과/만족도를 검증하고, 데이터 기반으로 차기 기수 확대 로드맵을 세우겠습니다.",
+                points: { customer: 3, partnership: 4, worklife: 4, innovation: 5, efficiency: 4 },
                 isCultureFit: true,
                 nextMessage: {
-                    sender: "지훈 (PO)",
+                    sender: "정우 (프로젝트 매니저)",
                     avatar: "PO",
-                    content: "좋아요! 혁신에 대한 적극적인 자세가 우리 조직다워요. 단계적 접근으로 리스크도 관리할 수 있겠네요.",
+                    content: "리스크 관리와 혁신의 균형이 좋네요. 파일럿 설계안부터 만들죠.",
                     isUser: false
                 }
             },
             {
                 id: "3c",
-                text: "시장 조사를 먼저 해보겠습니다. 경쟁사들의 AI 도입 현황과 고객 니즈를 파악한 후 ROI를 계산해서 의사결정하는 게 좋겠어요.",
-                points: { customer: 5, partnership: 5, innovation: 5, growth: 8, efficiency: 8 },
+                text: "올해는 기존 프로그램 안정화에 집중하고, AI 도입은 내년 계획에 포함해 준비 기간을 확보하겠습니다. 강사 교육/매뉴얼 개편을 사전에 진행하죠.",
+                points: { customer: 4, partnership: 4, worklife: 5, innovation: 4, efficiency: 3 },
                 isCultureFit: false,
                 nextMessage: {
-                    sender: "민지 (iOS Developer)",
+                    sender: "지원 (교육운영 매니저)",
                     avatar: "DEV",
-                    content: "체계적인 접근은 좋지만, 너무 분석만 하다가 기회를 놓칠 수도 있어요.",
+                    content: "보수적이지만 충실한 준비가 되겠네요. 관성으로 기회를 놓치지 않도록 체크해야겠습니다.",
                     isUser: false
                 }
             }
         ]
     },
 
-    // 시나리오 4: 효율성 개선 제안
+    // 문항 4 – 기업 교육 제안 대응 (회사생활)
     scenario4: {
         id: 4,
-        title: "예약 프로세스 간소화",
+        title: "기업 교육 제안 대응 (회사생활)",
         time: "16:00 PM",
-        description: "현재 예약 과정이 너무 복잡해서 이탈률이 높다는 데이터가 나왔습니다.",
+        description: "내년 상반기 대기업 2곳에서 기업 맞춤형 교육 제안. 다만 팀 리소스 분산으로 청년 교육 품질 저하 우려.",
         messages: [
             {
                 id: 1,
-                sender: "지훈 (PO)",
+                sender: "정우 (프로젝트 매니저)",
                 avatar: "PO",
-                content: "GA 데이터를 보니까 예약 퍼널에서 이탈률이 65%나 돼요. 특히 차량 정보 입력 단계에서 많이 이탈하더라고요. 현재는 7단계를 거쳐야 예약이 완료되는데, 너무 복잡한 것 같아요.",
+                content: "B2B 교육은 단가가 높습니다. 하지만 청년 교육 리소스가 줄 수 있겠어요.",
                 isUser: false,
                 delay: 1000
             },
             {
                 id: 2,
-                sender: "민지 (iOS Developer)",
+                sender: "지원 (교육운영 매니저)",
                 avatar: "DEV",
-                content: "기술적으로는 단계를 줄일 수 있어요. 하지만 정비소에서 정확한 정보를 원하기 때문에 현재 구조가 된 거잖아요. 정보가 부족하면 정비소에서 다시 문의 전화를 해야 하고...",
+                content: "리소스를 나누면 청년 과정 품질 저하가 생길 수도 있겠네요.",
                 isUser: false,
                 delay: 2000
             },
             {
                 id: 3,
-                sender: "지훈 (PO)",
-                avatar: "PO",
-                content: "딜레마네요. 고객 편의성과 정보 정확성, 어떻게 균형을 맞출 수 있을까요?",
+                sender: "은혜 (파트너십 매니저)",
+                avatar: "DEV",
+                content: "팀 내 협업과 역할 분담이 중요해질 것 같습니다.",
                 isUser: false,
                 delay: 3000
             }
@@ -251,71 +253,71 @@ const scenarios = {
         choices: [
             {
                 id: "4a",
-                text: "정비소에서 정확한 정보를 원하는 이유가 있을 거예요. 현재 프로세스를 유지하되, UI/UX를 개선해서 입력 편의성을 높이는 방향으로 가보죠.",
-                points: { customer: 5, partnership: 10, innovation: 3, growth: 3, efficiency: 5 },
+                text: "기업 교육을 우선 추진해 매출 기반을 넓히고, 수익을 청년 교육 강화/신규 강사 영입에 재투자하겠습니다.",
+                points: { customer: 4, partnership: 4, worklife: 6, innovation: 3, efficiency: 3 },
                 isCultureFit: false,
                 nextMessage: {
-                    sender: "민지 (iOS Developer)",
+                    sender: "은혜 (파트너십 매니저)",
                     avatar: "DEV",
-                    content: "안전한 접근이지만, 근본적인 문제 해결은 되지 않을 것 같아요.",
+                    content: "재투자 계획이 핵심이겠네요. 단기 성과와 팀 피로도의 균형을 봐야 합니다.",
                     isUser: false
                 }
             },
             {
                 id: "4b",
-                text: "A/B 테스트를 통해 단계별로 최적화해보겠습니다. 각 단계별 이탈 원인을 분석하고 데이터 기반으로 개선점을 찾아보죠.",
-                points: { customer: 8, partnership: 5, innovation: 5, growth: 8, efficiency: 8 },
-                isCultureFit: false,
+                text: "청년/기업 교육 비중을 절반으로 운영하고 전담 인력을 배정해 품질 저하를 방지, 업무 분장을 명확히 하겠습니다.",
+                points: { customer: 5, partnership: 3, worklife: 5, innovation: 4, efficiency: 3 },
+                isCultureFit: true,
                 nextMessage: {
-                    sender: "준호 (Server Developer)",
-                    avatar: "DEV",
-                    content: "데이터 기반 접근은 좋지만, 현재 65% 이탈률은 시급히 해결해야 할 문제예요.",
+                    sender: "정우 (프로젝트 매니저)",
+                    avatar: "PO",
+                    content: "균형 전략이네요. 역할/성과 지표를 명확히 하죠.",
                     isUser: false
                 }
             },
             {
                 id: "4c",
-                text: "고객 입장에서는 빠른 예약이 최우선이에요. 필수 정보만 받고 나머지는 선택사항으로 만들거나, 스마트폰 번호판 인식 기능을 활용해서 자동 입력되도록 하면 어떨까요?",
-                points: { customer: 12, partnership: 5, innovation: 10, growth: 8, efficiency: 15 },
-                isCultureFit: true,
+                text: "청년 교육에 집중하고 기업 교육은 시범사업 형태로만 진행해 시장 반응을 확인, 필요시 확대를 검토하겠습니다.",
+                points: { customer: 4, partnership: 4, worklife: 5, innovation: 4, efficiency: 3 },
+                isCultureFit: false,
                 nextMessage: {
-                    sender: "지훈 (PO)",
-                    avatar: "PO",
-                    content: "효율성과 고객 중심 사고가 돋보이네요! 기술로 사용자 경험을 개선하는 우리 조직다운 접근이에요.",
+                    sender: "지원 (교육운영 매니저)",
+                    avatar: "DEV",
+                    content: "핵심 사업 집중입니다. 단, 기회비용을 정기적으로 점검해야겠어요.",
                     isUser: false
                 }
             }
         ]
     },
 
-    // 시나리오 5: 성장을 위한 새로운 시장 진출
+    // 문항 5 – 회의 효율성 개선 (효율성)
     scenario5: {
         id: 5,
-        title: "전기차 정비 시장 진출",
+        title: "회의 효율성 개선 (효율성)",
         time: "17:15 PM",
-        description: "전기차 보급 확산에 따라 전기차 정비 시장 진출을 검토하고 있습니다.",
+        description: "주 5회, 90분 이상 회의로 일정 지연이 잦음. 비동기 협업 도입과 회의 구조 재설계를 고려.",
         messages: [
             {
                 id: 1,
-                sender: "지훈 (PO)",
-                avatar: "PO",
-                content: "전기차 시장이 급성장하고 있어요. 정부에서도 2030년까지 전기차 300만대 보급을 목표로 하고 있고요. 우리 서비스도 전기차 정비 시장에 진출을 고려해야 할 때인 것 같아요.",
+                sender: "효주 (운영팀)",
+                avatar: "DEV",
+                content: "회의가 너무 길어 다른 업무에 지장이 있어요.",
                 isUser: false,
                 delay: 1000
             },
             {
                 id: 2,
-                sender: "준호 (Server Developer)",
+                sender: "유진 (콘텐츠 디자이너)",
                 avatar: "DEV",
-                content: "전기차 정비는 일반 차량과 완전히 달라요. 고전압 시스템이라 자격증이 있는 정비사만 작업할 수 있고, 정비소도 특별한 장비가 필요하고요.",
+                content: "비동기 협업 툴을 적극 쓰면 좋겠습니다.",
                 isUser: false,
                 delay: 2000
             },
             {
                 id: 3,
-                sender: "민지 (iOS Developer)",
-                avatar: "DEV",
-                content: "맞아요. 그리고 전기차 정비소는 아직 많지 않아서 파트너 확보부터 쉽지 않을 것 같은데요.",
+                sender: "정우 (프로젝트 매니저)",
+                avatar: "PO",
+                content: "다음 분기부터 회의 방식을 바꿔봅시다.",
                 isUser: false,
                 delay: 3000
             }
@@ -323,37 +325,37 @@ const scenarios = {
         choices: [
             {
                 id: "5a",
-                text: "아직은 리스크가 너무 커요. 전기차 시장이 성숙해질 때까지 기존 사업에 집중하고, 시장이 안정화된 후에 진출하는 게 안전할 것 같아요.",
-                points: { customer: 3, partnership: 5, innovation: 2, growth: 3, efficiency: 8 },
-                isCultureFit: false,
+                text: "주 2~3회로 줄이고, 안건/목표/참석자를 사전 공지하겠습니다. 자료는 최소 하루 전에 공유해 준비도를 높이겠습니다.",
+                points: { customer: 4, partnership: 3, worklife: 4, innovation: 3, efficiency: 6 },
+                isCultureFit: true,
                 nextMessage: {
-                    sender: "준호 (Server Developer)",
-                    avatar: "DEV",
-                    content: "안전한 접근이지만, 그때가 되면 이미 경쟁이 치열해져 있을 수도 있어요.",
+                    sender: "정우 (프로젝트 매니저)",
+                    avatar: "PO",
+                    content: "명확하고 실천 가능한 가이드네요. 바로 시범 적용해 봅시다.",
                     isUser: false
                 }
             },
             {
                 id: "5b",
-                text: "시장 조사부터 체계적으로 해보겠습니다. 전기차 보급률, 정비 수요, 경쟁 현황을 분석하고 비즈니스 모델을 수립한 후 진출 여부를 결정하죠.",
-                points: { customer: 5, partnership: 5, innovation: 5, growth: 8, efficiency: 8 },
+                text: "회의는 유지하되 안건별 발언 시간을 제한하고, 자료 검토는 온라인 협업 툴로 대체해 집중도와 결론 도출 속도를 높이겠습니다.",
+                points: { customer: 3, partnership: 4, worklife: 4, innovation: 3, efficiency: 6 },
                 isCultureFit: false,
                 nextMessage: {
-                    sender: "민지 (iOS Developer)",
+                    sender: "효주 (운영팀)",
                     avatar: "DEV",
-                    content: "체계적인 접근은 좋지만, 기회는 기다려주지 않을 수도 있어요.",
+                    content: "집중도가 오를 것 같아요. 툴 사용 규칙만 합의하면 되겠습니다.",
                     isUser: false
                 }
             },
             {
                 id: "5c",
-                text: "미래 성장을 위해서는 필수적인 진출이에요! 어려움이 있더라도 지금부터 준비해야 합니다. 전기차 정비 자격증을 가진 정비소들을 먼저 파악하고, 단계적으로 파트너십을 구축해보죠.",
-                points: { customer: 8, partnership: 10, innovation: 10, growth: 15, efficiency: 5 },
-                isCultureFit: true,
+                text: "공유 문서 기반 비동기 협업으로 전환하고, 꼭 필요한 경우만 회의를 소집하겠습니다. 긴급 사안은 메신저/화상회의로 대응하겠습니다.",
+                points: { customer: 4, partnership: 4, worklife: 3, innovation: 3, efficiency: 6 },
+                isCultureFit: false,
                 nextMessage: {
-                    sender: "지훈 (PO)",
-                    avatar: "PO",
-                    content: "성장에 대한 적극적인 마인드가 좋네요! 미래를 준비하는 우리 조직의 자세예요.",
+                    sender: "유진 (콘텐츠 디자이너)",
+                    avatar: "DEV",
+                    content: "회의 피로도가 크게 줄겠어요. 온보딩 가이드가 필요하겠습니다.",
                     isUser: false
                 }
             }
@@ -371,8 +373,8 @@ class ScenarioManager {
         this.totalScore = {
             customer: 0,
             partnership: 0,
+            worklife: 0,   // ← 회사생활
             innovation: 0,
-            growth: 0,
             efficiency: 0
         };
     }
@@ -399,18 +401,15 @@ class ScenarioManager {
                 isCultureFit: choice.isCultureFit
             };
         }
-        
         return null;
     }
 
     getNextScenario() {
         const scenarioKeys = Object.keys(scenarios);
         const currentIndex = scenarioKeys.findIndex(key => scenarios[key].id === this.currentScenario?.id);
-        
         if (currentIndex < scenarioKeys.length - 1) {
             return scenarioKeys[currentIndex + 1];
         }
-        
         return null;
     }
 
@@ -420,11 +419,10 @@ class ScenarioManager {
 
     getCultureFitPercentage() {
         const total = Object.values(this.totalScore).reduce((sum, score) => sum + score, 0);
-        const maxPossible = this.completedScenarios.length * 15 * 5; // 최대 15점 * 5개 영역
+        const maxPossible = this.completedScenarios.length * 15 * 5; // 최대 15점 * 5개 영역(참고용)
         return Math.round((total / maxPossible) * 100) || 0;
     }
 
-    // Firestore에 결과 저장
     async saveResultToFirestore(applicantData) {
         try {
             if (window.firestoreManager) {
@@ -436,7 +434,6 @@ class ScenarioManager {
                     startTime: Date.now(),
                     endTime: Date.now()
                 };
-                
                 const docId = await window.firestoreManager.saveApplicant(resultData);
                 console.log('결과가 Firestore에 저장되었습니다:', docId);
                 return docId;
