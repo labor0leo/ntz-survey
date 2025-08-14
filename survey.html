@@ -18,11 +18,6 @@
     .q-title{font-weight:700;margin-bottom:8px}
     .option-row{display:grid;grid-template-columns:1fr 110px 110px;gap:10px;align-items:center;padding:6px 0;border-bottom:1px dashed #eaeaea}
     .option-row:last-child{border-bottom:none}
-    .badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:999px;margin-left:6px}
-    .badge.A{background:#dbeafe;color:#1e40af}
-    .badge.B{background:#dcfce7;color:#166534}
-    .badge.C{background:#ede9fe;color:#5b21b6}
-    .badge.D{background:#fef3c7;color:#92400e}
     .grid-head{display:grid;grid-template-columns:1fr 110px 110px;gap:10px;color:var(--text-secondary);font-size:12px;margin-bottom:4px}
     .submit-wrap{text-align:center;margin-top:16px}
     .submit-btn{background:var(--primary-color);color:#fff;border:none;padding:12px 24px;border-radius:10px;font-weight:700;cursor:pointer}
@@ -37,20 +32,20 @@
         <span class="role-badge">시뮬레이션 시작 전</span>
       </div>
       <div class="progress">
-        <span class="time">Step 2/2</span>
-        <div class="scenario-info">선호 유형 체크</div>
+        <span class="time">Step 1/2</span>
+        <div class="scenario-info">선호 유형 체크 + 서술형</div>
       </div>
     </header>
 
     <div class="survey-card">
       <div class="survey-header">
         <h2>서술형 문항</h2>
-        <p class="scenario-info">간단히 작성해주세요. (필수)</p>
+        <p class="scenario-info">간단히 작성해 주세요. (예: 고객 중심, 속도, 협업 등)</p>
       </div>
 
       <div class="field">
-        <label for="openText">업무에서 가장 중요하게 생각하는 가치</label>
-        <textarea id="openText" rows="4" placeholder="예: 고객 중심, 속도, 협업 등"></textarea>
+        <label for="openText">업무에서 가장 중요하게 생각하는 가치 *</label>
+        <textarea id="openText" rows="4" placeholder="간단히 작성해 주세요."></textarea>
       </div>
     </div>
 
