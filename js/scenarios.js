@@ -449,4 +449,4 @@ class ScenarioManager {
             return null;
         }
     }
-} 
+}
