@@ -669,7 +669,7 @@ body {
     z-index: 0;
     pointer-events: none;
     background:
-      radial-gradient(60% 40% at 50% 50%, rgba(37,99,235,0.08), transparent 60%),
+      radial-gradient(150% 40% at 50% 50%, rgba(37,99,235,0.08), transparent 60%),
       conic-gradient(from var(--wave-angle, 0deg),
         rgba(37,99,235,0.18) 0%,
         transparent 35%,
@@ -677,7 +677,7 @@ body {
         transparent 75%,
         rgba(59,130,246,0.18) 100%
       );
-    background-size: 140% 140%, 200% 200%;
+    background-size: 220% 140%, 320% 200%;
     animation: waveShift 12s linear infinite, waveDrift 8s ease-in-out infinite alternate;
 
     -webkit-mask-image: linear-gradient(
