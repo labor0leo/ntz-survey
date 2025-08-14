@@ -37,7 +37,7 @@ class CultureFitSimulator {
             }
         } catch(e){ console.warn("user context parse fail", e); }
 
-        // 기본 진입이 index.html이라면, 설문 먼저
+        // 기본 진입이 simulator.html이고 설문 미완료라면 설문 먼저
         if (!location.search.includes("bypassSurvey=true")) {
             location.href = "survey.html";
             return;
