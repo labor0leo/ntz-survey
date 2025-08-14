@@ -658,75 +658,47 @@ body {
     }
 }
 
-/* === Premium Wave Layer (drop-in replacement) === */
 .wave-layer {
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
 
-  /* 베이스: 깊이감 있는 결 + 은은한 색 띠 */
+  /* 부드러운 그라디언트 + 메인 웨이브만 유지 */
   background:
-    /* 깊은 베이스 라이트 */
     radial-gradient(140% 60% at 80% 40%, rgba(37,99,235,0.10), transparent 70%),
     radial-gradient(120% 70% at 20% 70%, rgba(99,102,241,0.10), transparent 75%),
-    /* 메인 콩익 웨이브 */
     conic-gradient(from var(--wave-angle, 0deg),
       rgba(37,99,235,0.22) 0%,
       transparent 28%,
       rgba(99,102,241,0.22) 52%,
       transparent 76%,
       rgba(59,130,246,0.22) 100%
-    ),
-    /* 부드러운 광택 하이라이트 */
-    linear-gradient(100deg,
-      transparent 0%,
-      rgba(255,255,255,0.12) 15%,
-      transparent 32%,
-      rgba(255,255,255,0.10) 55%,
-      transparent 78%,
-      rgba(255,255,255,0.08) 92%,
-      transparent 100%
-    ),
-    /* 아주 미세한 텍스처(결) */
-    repeating-linear-gradient(
-      110deg,
-      rgba(255,255,255,0.035) 0px,
-      rgba(255,255,255,0.035) 2px,
-      transparent 3px,
-      transparent 7px
     );
 
   background-size:
     240% 180%,    /* radial #1 */
     220% 180%,    /* radial #2 */
-    320% 220%,    /* conic wave */
-    180% 140%,    /* highlight */
-    140% 140%;    /* grain */
+    320% 220%;    /* conic wave */
 
   background-blend-mode:
-    screen,       /* radial #1 */
-    screen,       /* radial #2 */
-    overlay,      /* conic */
-    soft-light,   /* highlight */
-    normal;       /* grain */
+    screen,
+    screen,
+    overlay;
 
-  /* 파도 이동 + 은근한 드리프트 */
   animation:
     waveShift 14s linear infinite,
     waveDrift 8s ease-in-out infinite alternate;
 
-  /* 중앙 영역만 보여주는 마스크(폭 가변 변수) */
-  --band: 35rem; /* ⬅ 가로 폭(중앙에서 좌우로) 조절 포인트 */
+  /* 중앙 영역만 보이게 하는 마스크 */
+  --band: 35rem;
   -webkit-mask-image:
     linear-gradient(
       to right,
       transparent 0,
       transparent calc(50% - var(--band) - 6rem),
-      rgba(0,0,0,0.85) calc(50% - var(--band) - 2rem),
       #000 calc(50% - var(--band)),
       #000 calc(50% + var(--band)),
-      rgba(0,0,0,0.85) calc(50% + var(--band) + 2rem),
       transparent calc(50% + var(--band) + 6rem),
       transparent 100%
     );
@@ -735,101 +707,32 @@ body {
       to right,
       transparent 0,
       transparent calc(50% - var(--band) - 6rem),
-      rgba(0,0,0,0.85) calc(50% - var(--band) - 2rem),
       #000 calc(50% - var(--band)),
       #000 calc(50% + var(--band)),
-      rgba(0,0,0,0.85) calc(50% + var(--band) + 2rem),
       transparent calc(50% + var(--band) + 6rem),
       transparent 100%
     );
 
-  /* 약간 선명 + 미세 블러로 디더링 */
-  filter: saturate(112%) blur(.35px);
+  filter: saturate(110%) blur(0.3px);
 }
 
-/* 전경 잔광(조용한 유광) 레이어 */
-.wave-layer::before,
-.wave-layer::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
-/* 느린 파라락스 라이트 */
-.wave-layer::before {
-  background:
-    conic-gradient(from calc(var(--wave-angle, 0deg) * -1),
-      transparent 0%,
-      rgba(255,255,255,0.08) 18%,
-      transparent 36%,
-      rgba(255,255,255,0.06) 54%,
-      transparent 72%,
-      rgba(255,255,255,0.05) 90%,
-      transparent 100%
-    );
-  background-size: 260% 240%;
-  mix-blend-mode: soft-light;
-  opacity: .55;
-  animation: waveParallax 18s linear infinite;
-}
-
-/* 아주 약한 노이즈 패턴 */
-.wave-layer::after {
-  background:
-    radial-gradient(120% 100% at 70% 30%, rgba(255,255,255,0.04), transparent 60%),
-    repeating-linear-gradient(
-      0deg,
-      rgba(0,0,0,0.05) 0px,
-      rgba(0,0,0,0.05) 1px,
-      transparent 2px,
-      transparent 4px
-    );
-  background-size: 160% 160%, 100% 100%;
-  mix-blend-mode: overlay;
-  opacity: .25;
-  animation: waveTexture 12s ease-in-out infinite alternate;
-}
-
-/* 우→좌 회전(메인 웨이브 방향성) */
+/* 웨이브 회전 */
 @keyframes waveShift { to { --wave-angle: 360deg; } }
 
-/* 부드러운 포지션 드리프트 */
+/* 부드러운 위치 변화 */
 @keyframes waveDrift {
-  0%   { background-position:
-          0% 0%,      /* radial #1 */
-          40% 60%,    /* radial #2 */
-          50% 50%,    /* conic */
-          10% 30%,    /* highlight */
-          0% 0%;      /* grain */
-        }
-  100% { background-position:
-          100% 100%,
-          60% 40%,
-          60% 40%,
-          80% 60%,
-          100% 100%;
-        }
-}
-
-/* 보조 레이어 파라락스 */
-@keyframes waveParallax {
-  0%   { transform: translateX(6%);   opacity: .55; }
-  50%  { transform: translateX(-3%);  opacity: .45; }
-  100% { transform: translateX(8%);   opacity: .55; }
-}
-
-/* 노이즈/결의 아주 미세한 호흡감 */
-@keyframes waveTexture {
-  0%   { transform: translateY(0%);   opacity: .22; }
-  100% { transform: translateY(-2%);  opacity: .28; }
+  0%   { background-position: 0% 0%, 40% 60%, 50% 50%; }
+  100% { background-position: 100% 100%, 60% 40%, 60% 40%; }
 }
 
 /* 모션 최소화 */
 @media (prefers-reduced-motion: reduce) {
-  .wave-layer,
-  .wave-layer::before,
-  .wave-layer::after { animation: none; }
+  .wave-layer { animation: none; }
+}
+
+/* 모바일에서는 숨김 */
+@media (hover: none), (pointer: coarse), (max-width: 900px) {
+  .wave-layer { display: none; }
 }
 
 /* 모바일/터치 환경 및 좁은 화면에서는 비표시 */
