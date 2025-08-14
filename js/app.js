@@ -21,7 +21,7 @@ class CultureFitSimulator {
     initializeApp() {
         console.log('🚗 조직 협업 시뮬레이터 시작!');
         
-        // ✅ 설문 완료 여부 확인하여 바로 시작 or 설문으로 이동
+        // ✅ 설문 완료여부 확인: 설문 완료 시 모달 없이 바로 시작
         try {
             const raw = localStorage.getItem("macarong_user");
             if (raw) {
@@ -30,7 +30,6 @@ class CultureFitSimulator {
                     this.applicantData.name = u.name;
                     this.applicantData.email = u.email || "";
                     this.applicantData.startTime = new Date();
-                    // 설문 완료자는 모달 없이 바로 시작
                     this.showWelcomeMessage();
                     this.setupEventListeners();
                     return;
@@ -38,7 +37,7 @@ class CultureFitSimulator {
             }
         } catch(e){ console.warn("user context parse fail", e); }
 
-        // 개발 테스트를 위해 쿼리로 우회 가능
+        // 기본 진입이 index.html이라면, 설문 먼저
         if (!location.search.includes("bypassSurvey=true")) {
             location.href = "survey.html";
             return;
