@@ -33,29 +33,29 @@
       </div>
       <div class="progress">
         <span class="time">Step 1/2</span>
-        <div class="scenario-info">선호 유형 체크 + 서술형</div>
+        <div class="scenario-info">DISC + 스트레스 대처 유형</div>
       </div>
     </header>
 
+    <!-- (선택) 서술형 문항 -->
     <div class="survey-card">
       <div class="survey-header">
-        <h2>서술형 문항</h2>
-        <p class="scenario-info">간단히 작성해 주세요. (예: 고객 중심, 속도, 협업 등)</p>
+        <h2>간단 서술형 (선택)</h2>
+        <p class="scenario-info">업무나 학습에서 가장 중요하게 생각하는 가치를 자유롭게 작성해 주세요.</p>
       </div>
-
       <div class="field">
-        <label for="openText">업무에서 가장 중요하게 생각하는 가치 *</label>
-        <textarea id="openText" rows="4" placeholder="간단히 작성해 주세요."></textarea>
+        <label for="openText">생각을 간단히 남겨주세요</label>
+        <textarea id="openText" rows="4" placeholder="예: 고객 중심, 실행 속도, 협업 등"></textarea>
       </div>
     </div>
 
+    <!-- 질문들 (두 설문이 한 페이지에서 이어서 노출) -->
     <div class="survey-card" style="margin-top:14px">
       <div class="survey-header">
         <h2>선택형 문항</h2>
-        <p class="scenario-info">각 문항에서 ‘가장 가깝다( +1 )’와 ‘가장 멀다( -1 )’를 각각 하나씩 선택하세요.</p>
+        <p class="scenario-info">각 문항마다 ‘가장 가깝다( +1 )’와 ‘가장 멀다( -1 )’를 각각 하나씩 선택하세요.</p>
       </div>
 
-      <!-- 동적 문항 렌더링 타겟 -->
       <div id="surveyQuestions"></div>
 
       <div class="submit-wrap">
