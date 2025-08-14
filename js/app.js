@@ -21,10 +21,31 @@ class CultureFitSimulator {
     initializeApp() {
         console.log('🚗 조직 협업 시뮬레이터 시작!');
         
-        // 지원자 정보 입력 모달 표시
+        // ✅ 설문 완료 여부 확인하여 바로 시작 or 설문으로 이동
+        try {
+            const raw = localStorage.getItem("macarong_user");
+            if (raw) {
+                const u = JSON.parse(raw);
+                if (u?.surveyCompleted && u?.name) {
+                    this.applicantData.name = u.name;
+                    this.applicantData.email = u.email || "";
+                    this.applicantData.startTime = new Date();
+                    // 설문 완료자는 모달 없이 바로 시작
+                    this.showWelcomeMessage();
+                    this.setupEventListeners();
+                    return;
+                }
+            }
+        } catch(e){ console.warn("user context parse fail", e); }
+
+        // 개발 테스트를 위해 쿼리로 우회 가능
+        if (!location.search.includes("bypassSurvey=true")) {
+            location.href = "survey.html";
+            return;
+        }
+
+        // (fallback) 기존 동작
         this.showApplicantInfoModal();
-        
-        // 이벤트 리스너 설정
         this.setupEventListeners();
     }
 
@@ -282,9 +303,6 @@ class CultureFitSimulator {
         };
         this.addMessage(userMessage);
         
-
-
-        
         // 컬처핏 피드백
         if (choice.isCultureFit) {
             setTimeout(() => {
@@ -337,8 +355,6 @@ class CultureFitSimulator {
             this.showFinalResult();
         }
     }
-
-
 
     showFinalResult() {
         this.applicantData.endTime = new Date();
@@ -481,4 +497,4 @@ class CultureFitSimulator {
 // 앱 초기화
 document.addEventListener('DOMContentLoaded', function() {
     window.cultureSimulator = new CultureFitSimulator();
-}); 
+});
