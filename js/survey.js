@@ -67,7 +67,7 @@ const SURVEY_PAGE = {
       questions: [
         {
           id: "COP1",
-          title: "1. 예상치 못한 일정 변경이 생기면",
+          title: "예상치 못한 일정 변경이 생기면",
           options: [
             { text: "새로운 일정에 맞춰 우선순위를 다시 조정한다.", type: "P" },
             { text: "상황이 안정될 때까지 일단 다른 일부터 처리한다.", type: "A" },
@@ -78,7 +78,7 @@ const SURVEY_PAGE = {
         },
         {
           id: "COP2",
-          title: "2. 큰 실수를 했을 때",
+          title: "큰 실수를 했을 때",
           options: [
             { text: "원인을 파악하고 재발 방지 계획을 세운다.", type: "P" },
             { text: "바로 대응하지 않고 상황을 차분히 정리한 뒤 접근한다.", type: "A" },
@@ -89,7 +89,7 @@ const SURVEY_PAGE = {
         },
         {
           id: "COP3",
-          title: "3. 마감 기한이 촉박할 때",
+          title: "마감 기한이 촉박할 때",
           options: [
             { text: "해야 할 일을 목록화하고 순서대로 처리한다.", type: "P" },
             { text: "먼저 처리 가능한 부분부터 착수해 흐름을 만든다.", type: "A" },
@@ -100,7 +100,7 @@ const SURVEY_PAGE = {
         },
         {
           id: "COP4",
-          title: "4. 중요한 시험이나 평가 전",
+          title: "중요한 시험이나 평가 전",
           options: [
             { text: "예상되는 문제를 분석해 전략적으로 준비한다.", type: "P" },
             { text: "준비가 덜 된 부분은 잠시 두고 자신 있는 부분을 다진다.", type: "A" },
@@ -111,7 +111,7 @@ const SURVEY_PAGE = {
         },
         {
           id: "COP5",
-          title: "5. 동료와 의견이 엇갈릴 때",
+          title: "동료와 의견이 엇갈릴 때",
           options: [
             { text: "대안을 제시하며 해결책을 찾는다.", type: "P" },
             { text: "감정이 격해지지 않도록 대화를 잠시 멈춘다.", type: "A" },
@@ -122,7 +122,7 @@ const SURVEY_PAGE = {
         },
         {
           id: "COP6",
-          title: "6. 계획이 틀어졌을 때",
+          title: "계획이 틀어졌을 때",
           options: [
             { text: "즉시 대안을 마련해 새 계획을 세운다.", type: "P" },
             { text: "우선 급하지 않은 부분부터 정리하며 방향을 잡는다.", type: "A" },
@@ -133,7 +133,7 @@ const SURVEY_PAGE = {
         },
         {
           id: "COP7",
-          title: "7. 기대에 미치지 못한 결과를 받았을 때",
+          title: "기대에 미치지 못한 결과를 받았을 때",
           options: [
             { text: "다음에 보완할 방법을 구체화한다.", type: "P" },
             { text: "잠시 결과를 뒤로 하고 다른 과제에 집중한다.", type: "A" },
@@ -144,7 +144,7 @@ const SURVEY_PAGE = {
         },
         {
           id: "COP8",
-          title: "8. 갑작스러운 요청을 받았을 때",
+          title: "갑작스러운 요청을 받았을 때",
           options: [
             { text: "필요한 자료나 방법을 신속히 준비한다.", type: "P" },
             { text: "가능한 범위에서 처리할 수 있는 부분부터 진행한다.", type: "A" },
@@ -155,7 +155,7 @@ const SURVEY_PAGE = {
         },
         {
           id: "COP9",
-          title: "9. 반복되는 어려움이 있을 때",
+          title: "반복되는 어려움이 있을 때",
           options: [
             { text: "문제를 구조적으로 분석해 해결책을 찾는다.", type: "P" },
             { text: "필요한 때까지 잠시 주제를 바꾸며 새로운 시각을 얻는다.", type: "A" },
@@ -166,7 +166,7 @@ const SURVEY_PAGE = {
         },
         {
           id: "COP10",
-          title: "10. 중요한 발표를 앞두고 긴장될 때",
+          title: "중요한 발표를 앞두고 긴장될 때",
           options: [
             { text: "자료를 점검하고 리허설을 한다.", type: "P" },
             { text: "준비를 잠시 멈추고 시야를 넓히는 활동을 한다.", type: "A" },
