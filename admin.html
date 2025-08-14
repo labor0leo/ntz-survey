@@ -465,7 +465,7 @@
                 <button class="filter-btn" data-filter="poor">미흡 (55% 미만)</button>
             </div>
             <button class="export-btn" onclick="exportToCSV()">CSV 내보내기</button>
-            <!-- ✅ 평가표 이미지 확인 버튼 추가 -->
+            <!-- ✅ 평가표 이미지 확인 버튼 -->
             <button class="export-btn" onclick="location.href='images.html'">평가표 이미지 확인</button>
         </div>
 
@@ -814,7 +814,7 @@
                 document.getElementById('modalBody').innerHTML = `
                   <div class="detail-section">
                     <h3>📄 서술형 응답</h3>
-                    <div class="detail-item"><div class="detail-value">${(s.openText||'-').replace(/\n/g,'<br>')}</div></div>
+                    <div class="detail-item"><div class="detail-value">${(s.openText||s.desc||'-').replace(/\n/g,'<br>')}</div></div>
                   </div>
                   <div class="detail-section">
                     <h3>🏷️ 최종 유형</h3>
