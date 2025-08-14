@@ -216,9 +216,9 @@ class CultureFitSimulator {
         this.applicantData.finalPercentage = culturePercentage;
 
         this.addMessage({
-            sender: "조직 협업 분석",
+            sender: "New Way NTZ",
             avatar: "🎯",
-            content: `<h3>🚗 시뮬레이션이 완료되었습니다.</h3>`,
+            content: `<h3>🚗 시뮬레이션이 완료되었습니다. 설문에 응답해주셔서 감사합니다.</h3>`,
             isUser: false
         });
 
