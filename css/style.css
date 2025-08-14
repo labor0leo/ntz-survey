@@ -663,66 +663,24 @@ body {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-
-  /* 부드러운 그라디언트 + 메인 웨이브만 유지 */
-  background:
-    radial-gradient(140% 60% at 80% 40%, rgba(37,99,235,0.10), transparent 70%),
-    radial-gradient(120% 70% at 20% 70%, rgba(99,102,241,0.10), transparent 75%),
-    conic-gradient(from var(--wave-angle, 0deg),
-      rgba(37,99,235,0.22) 0%,
-      transparent 28%,
-      rgba(99,102,241,0.22) 52%,
-      transparent 76%,
-      rgba(59,130,246,0.22) 100%
-    );
-
-  background-size:
-    240% 180%,    /* radial #1 */
-    220% 180%,    /* radial #2 */
-    320% 220%;    /* conic wave */
-
-  background-blend-mode:
-    screen,
-    screen,
-    overlay;
-
-  animation:
-    waveShift 14s linear infinite,
-    waveDrift 8s ease-in-out infinite alternate;
-
-  /* 중앙 영역만 보이게 하는 마스크 */
-  --band: 35rem;
-  -webkit-mask-image:
-    linear-gradient(
-      to right,
-      transparent 0,
-      transparent calc(50% - var(--band) - 6rem),
-      #000 calc(50% - var(--band)),
-      #000 calc(50% + var(--band)),
-      transparent calc(50% + var(--band) + 6rem),
-      transparent 100%
-    );
-  mask-image:
-    linear-gradient(
-      to right,
-      transparent 0,
-      transparent calc(50% - var(--band) - 6rem),
-      #000 calc(50% - var(--band)),
-      #000 calc(50% + var(--band)),
-      transparent calc(50% + var(--band) + 6rem),
-      transparent 100%
-    );
-
-  filter: saturate(110%) blur(0.3px);
+  background: linear-gradient(
+    180deg,
+    rgba(37, 99, 235, 0.15) 0%,
+    rgba(99, 102, 241, 0.1) 50%,
+    rgba(37, 99, 235, 0.15) 100%
+  );
+  background-size: 200% 200%;
+  animation: gentleWave 8s ease-in-out infinite alternate;
+  filter: blur(40px);
 }
 
-/* 웨이브 회전 */
-@keyframes waveShift { to { --wave-angle: 360deg; } }
-
-/* 부드러운 위치 변화 */
-@keyframes waveDrift {
-  0%   { background-position: 0% 0%, 40% 60%, 50% 50%; }
-  100% { background-position: 100% 100%, 60% 40%, 60% 40%; }
+@keyframes gentleWave {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
 }
 
 /* 모션 최소화 */
@@ -730,12 +688,6 @@ body {
   .wave-layer { animation: none; }
 }
 
-/* 모바일에서는 숨김 */
-@media (hover: none), (pointer: coarse), (max-width: 900px) {
-  .wave-layer { display: none; }
-}
-
-/* 모바일/터치 환경 및 좁은 화면에서는 비표시 */
 @media (hover: none), (pointer: coarse), (max-width: 900px) {
   .wave-layer { display: none; }
 }
