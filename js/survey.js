@@ -37,16 +37,7 @@ const SURVEY_SCHEMA = {
 };
 
 (function initSurvey() {
-  // 사용자 컨텍스트 확인 (index에서 저장)
-  const userName = localStorage.getItem("userName");
-  const userBirth = localStorage.getItem("userBirth");
-  if (!userName || !userBirth) {
-    alert("이름/생년월일 정보가 없어 시작 페이지로 돌아갑니다.");
-    location.href = "index.html";
-    return;
-  }
-
-  // 렌더
+  // 문항 렌더 (유형 배지 제거! 사용자 화면에 표시하지 않음)
   const $qRoot = document.getElementById("surveyQuestions");
   SURVEY_SCHEMA.questions.forEach((q, idx) => {
     const qDiv = document.createElement("div");
@@ -56,7 +47,7 @@ const SURVEY_SCHEMA = {
       <div class="grid-head"><div>항목</div><div>가장 가깝다 (+1)</div><div>가장 멀다 (-1)</div></div>
       <div>${q.options.map((opt, i) => `
         <div class="option-row">
-          <div>${opt.text} <span class="badge ${opt.type}">${opt.type}</span></div>
+          <div>${opt.text}</div>
           <div><input type="radio" name="${q.id}_close" value="${i}" aria-label="closest"></div>
           <div><input type="radio" name="${q.id}_far" value="${i}" aria-label="farthest"></div>
         </div>
@@ -68,16 +59,24 @@ const SURVEY_SCHEMA = {
   document.getElementById("submitSurvey").addEventListener("click", submitSurvey);
 })();
 
+function getUserContext() {
+  try {
+    const raw = localStorage.getItem("macarong_user");
+    if (!raw) return {};
+    return JSON.parse(raw) || {};
+  } catch (e) {
+    return {};
+  }
+}
+
 async function submitSurvey() {
-  const userName = localStorage.getItem("userName");
-  const userBirth = localStorage.getItem("userBirth");
+  // index.html에서 저장한 사용자 정보 활용
+  const user = getUserContext();
+  const name = (user.name || "").trim();
+  const email = (user.email || "").trim(); // 있을 수도 없을 수도 있음
   const openText = document.getElementById("openText").value.trim();
 
-  if (!userName || !userBirth) {
-    alert("이름/생년월일 정보가 없어 시작 페이지로 돌아갑니다.");
-    location.href = "index.html";
-    return;
-  }
+  if (!name) return alert("이전 단계에서 이름 입력이 필요합니다. 처음 화면으로 이동합니다.");
   if (SURVEY_SCHEMA.openTextRequired && !openText) return alert("서술형 문항을 작성해주세요.");
 
   // 점수 집계
@@ -97,8 +96,8 @@ async function submitSurvey() {
 
     const closeType = q.options[closeIdx].type;
     const farType   = q.options[farIdx].type;
-    scores[closeType] += 1;
-    scores[farType]   -= 1;
+    scores[closeType] += 1;   // +1
+    scores[farType]   -= 1;   // -1
 
     answers.push({
       questionId: q.id,
@@ -107,17 +106,21 @@ async function submitSurvey() {
     });
   }
 
+  // 최고/최저 유형 계산
   const typeOrder = ["A","B","C","D"]; // 동점 우선순위
-  const topType = typeOrder
-    .map(t => ({t, v:scores[t]}))
-    .sort((a,b)=> b.v - a.v || typeOrder.indexOf(a.t)-typeOrder.indexOf(b.t))[0].t;
+  const sorted = typeOrder.map(t => ({t, v:scores[t]}))
+                          .sort((a,b)=> b.v - a.v || typeOrder.indexOf(a.t)-typeOrder.indexOf(b.t));
+  const topType = sorted[0].t;
+  const lowType = sorted[sorted.length-1].t;
 
   const payload = {
     id: Date.now(),
-    name: userName,
-    birth: userBirth,
+    name, email,
     openText,
-    scores, topType, answers,
+    scores,          // {A,B,C,D}
+    topType,         // 최상위 유형
+    lowType,         // 최하위 유형
+    answers,         // 문항별 선택내역
     createdAt: new Date().toISOString(),
   };
 
@@ -136,8 +139,8 @@ async function submitSurvey() {
     localStorage.setItem("macarong_surveys", JSON.stringify(arr));
   }
 
-  // 사용자 컨텍스트 저장 → 시뮬 즉시 시작
-  localStorage.setItem("macarong_user", JSON.stringify({ name: userName, birth: userBirth, surveyCompleted:true }));
+  // 사용자 컨텍스트 업데이트 → 설문 완료 표시
+  localStorage.setItem("macarong_user", JSON.stringify({ ...user, surveyCompleted:true }));
 
   alert("수고하셨습니다. 이어서 시뮬레이션 검사가 진행됩니다.");
   location.href = "simulator.html";
