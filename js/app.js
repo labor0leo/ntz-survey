@@ -16,7 +16,7 @@ class CultureFitSimulator {
     }
 
     initializeApp() {
-        console.log('🚗 조직 협업 시뮬레이터 시작!');
+        console.log('🚗 New Way NTZ 시작!');
 
         // 설문 완료 여부 확인: 완료 시 바로 시작
         try {
@@ -50,85 +50,15 @@ class CultureFitSimulator {
         modal.className = 'modal-overlay';
         modal.innerHTML = `
             <div class="modal-content">
-                <h3>🚗 NTZ Fit 시뮬레이터</h3>
-                <p>시뮬레이터 시작 전 간단한 정보를 입력해주세요.</p>
+                <h3>🚗 New Way NTZ 채용 검사</h3>
+                <p>검사 시작 전 간단한 정보를 입력해주세요.</p>
                 <div class="input-group">
                     <label for="applicantName">이름 *</label>
                     <input type="text" id="applicantName" placeholder="홍길동" required>
                 </div>
                 <div class="input-group">
                     <label for="applicantEmail">이메일 (선택)</label>
-                    <input type="email" id="applicantEmail" placeholder="hong@example.com">
-                </div>
-                <div class="modal-buttons">
-                    <button class="start-button" onclick="window.cultureSimulator.startSimulator()">시뮬레이터 시작</button>
-                </div>
-            </div>
-        `;
-        document.body.appendChild(modal);
-    }
-
-    startSimulator() {
-        const nameInput = document.getElementById('applicantName');
-        const emailInput = document.getElementById('applicantEmail');
-        if (!nameInput.value.trim()) {
-            alert('이름을 입력해주세요.');
-            return;
-        }
-        this.applicantData.name = nameInput.value.trim();
-        this.applicantData.email = emailInput.value.trim();
-        this.applicantData.startTime = new Date();
-        document.querySelector('.modal-overlay').remove();
-        this.showWelcomeMessage();
-    }
-
-    showWelcomeMessage() {
-        const welcomeMessage = {
-            sender: "NTZ Fit 시뮬레이터",
-            avatar: "🚗",
-            content: `안녕하세요 ${this.applicantData.name}님! 실제 협업 상황을 체험해보세요. 각 상황에서 핵심가치에 맞는 선택을 해보시기 바랍니다.`,
-            isUser: false
-        };
-        this.addMessage(welcomeMessage);
-        setTimeout(() => { this.showIntroScenarioMessage(); }, 800);
-    }
-
-    // ✅ 모든 시나리오: "디스크립션 → 메시지들 → 선택지" 완전 직렬 처리
-    async showScenarioWithChoices(scenario, includeDescription = true) {
-        // 헤더 업데이트
-        document.querySelector('.time').textContent = scenario.time;
-        document.querySelector('.scenario-info').textContent = scenario.title;
-
-        // 1) 디스크립션
-        if (includeDescription && scenario.description) {
-            this.addMessage({
-                sender: "상황 요약",
-                avatar: "📋",
-                content: scenario.description,
-                isUser: false
-            });
-            await this.sleep(800);
-        }
-
-        // 2) 팀 메시지(순차)
-        for (const m of (scenario.messages || [])) {
-            await this.sleep(m.delay || 800);
-            this.addMessage(m);
-        }
-
-        // 3) 선택지
-        await this.sleep(600);
-        this.showChoices();
-    }
-
-    showIntroScenarioMessage() {
-        const scenario = this.scenarioManager.startScenario(this.currentScenarioId);
-
-        // 가벼운 조직/서비스 소개만 노출(설명 중복 방지: 여기서는 디스크립션 X)
-        const introMessages = [
-            { sender: "🚀 조직 소개", avatar: "🚀", content: `우리는 청년 교육과 기업 교육을 연결하는 교육 조직입니다.`, isUser: false },
-            { sender: "📱 서비스 소개", avatar: "📱", content: `실전 중심 커리큘럼과 협업 기반 운영으로 현장 적합도를 높입니다.`, isUser: false },
-            { sender: "🤝 파트너", avatar: "🤝", content: `지자체/기업 파트너와 협력하여 청년/직무 교육을 공동 운영합니다.`, isUser: false },
+                    <input type="email" i다.`, isUser: false },
             { sender: "👥 학습자", avatar: "👥", content: `수강생들이 바로 적용 가능한 실습형 경험을 제공합니다.`, isUser: false }
         ];
 
