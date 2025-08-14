@@ -16,10 +16,12 @@ class FirestoreManager {
     constructor(dbInstance) {
         this.db = dbInstance;
         this.applicantsCollection = 'applicants';
+        // ✅ 설문용 컬렉션 추가
+        this.surveysCollection = 'surveys';
         console.log('📋 Firestore 매니저 초기화 완료');
     }
 
-    // 지원자 데이터 저장
+    // ====== 지원자(시뮬) 데이터 ======
     async saveApplicant(applicantData) {
         try {
             console.log('💾 Firestore에 데이터 저장 시도:', applicantData.name);
@@ -36,7 +38,6 @@ class FirestoreManager {
         }
     }
 
-    // 모든 지원자 데이터 가져오기
     async getAllApplicants() {
         try {
             console.log('📊 Firestore에서 모든 지원자 데이터 로드 시도');
@@ -61,7 +62,6 @@ class FirestoreManager {
         }
     }
 
-    // 실시간 데이터 청취 (관리자 대시보드용)
     onApplicantsChange(callback) {
         try {
             console.log('👂 Firestore 실시간 데이터 청취 시작');
@@ -85,6 +85,51 @@ class FirestoreManager {
             console.error("❌ 실시간 데이터 청취 초기화 실패:", error);
             throw error;
         }
+    }
+
+    // ====== 설문 데이터 (NEW) ======
+    async saveSurvey(surveyData) {
+      try {
+        console.log('💾 설문 저장 시도:', surveyData.name);
+        const docRef = await this.db.collection(this.surveysCollection).add({
+          ...surveyData,
+          timestamp: Date.now()
+        });
+        console.log("✅ 설문 저장 완료:", docRef.id);
+        return docRef.id;
+      } catch (e) {
+        console.error("❌ 설문 저장 실패:", e);
+        throw e;
+      }
+    }
+
+    async getAllSurveys() {
+      try {
+        console.log('📊 설문 전체 로드 시도');
+        const qs = await this.db.collection(this.surveysCollection).orderBy('timestamp','desc').get();
+        const list = [];
+        qs.forEach(doc => list.push({ id: doc.id, ...doc.data() }));
+        console.log("✅ 설문 로드 완료:", list.length, "건");
+        return list;
+      } catch (e) {
+        console.error("❌ 설문 로드 실패:", e);
+        throw e;
+      }
+    }
+
+    onSurveysChange(callback){
+      try{
+        console.log('👂 설문 실시간 데이터 청취 시작');
+        return this.db.collection(this.surveysCollection).orderBy('timestamp','desc')
+          .onSnapshot((qs)=>{
+            const list=[]; qs.forEach(doc=>list.push({id:doc.id,...doc.data()}));
+            console.log('🔄 설문 실시간 업데이트:', list.length, '건');
+            callback(list);
+          },(err)=>console.error("❌ 설문 실시간 실패:",err));
+      }catch(e){
+        console.error("❌ 설문 실시간 초기화 실패:",e);
+        throw e;
+      }
     }
 }
 
@@ -117,4 +162,4 @@ try {
 } catch (error) {
     console.error('❌ Firebase 초기화 실패:', error);
     window.firestoreManager = null;
-} 
+}
