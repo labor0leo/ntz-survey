@@ -261,7 +261,7 @@ class CultureFitSimulator {
         restartDiv.innerHTML = `
             <div class="message-avatar">🔄</div>
             <div class="message-content">
-                <button class="choice-button" onclick="location.reload()" style="margin: 0;">다시 체험해보기</button>
+                <button class="choice-button" onclick="location.reload()" style="margin: 0;">웹 체험을 위해 다시 진행하기</button>
             </div>
         `;
         chatMessages.appendChild(restartDiv);
