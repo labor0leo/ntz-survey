@@ -16,7 +16,7 @@ class FirestoreManager {
     constructor(dbInstance) {
         this.db = dbInstance;
         this.applicantsCollection = 'applicants';
-        // ✅ 설문용 컬렉션 추가
+        // ✅ 설문용 컬렉션
         this.surveysCollection = 'surveys';
         console.log('📋 Firestore 매니저 초기화 완료');
     }
@@ -87,7 +87,7 @@ class FirestoreManager {
         }
     }
 
-    // ====== 설문 데이터 (NEW) ======
+    // ====== 설문 데이터 ======
     async saveSurvey(surveyData) {
       try {
         console.log('💾 설문 저장 시도:', surveyData.name);
