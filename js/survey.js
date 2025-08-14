@@ -1,130 +1,289 @@
-// 설문 정의(예시 자리표시자) — 이후 텍스트만 교체하면 그대로 동작
-// 각 option은 { text, type }이며 type은 A/B/C/D 중 하나(4분류)
-const SURVEY_SCHEMA = {
-  openTextRequired: true,
-  questions: [
+// 한 페이지 설문: (1) DISC 5문항 (D/I/S/C)  (2) 스트레스 대처 10문항 (P/A/M/S/E)
+// UI에는 유형 라벨을 절대 노출하지 않음. +1(가장 가까움) / -1(가장 멀음)
+
+const SURVEY_PAGE = {
+  sections: [
     {
-      id: "Q1",
-      title: "팀에서 나의 강점과 가장 거리가 먼 특성을 고르세요.",
-      options: [
-        { text: "고객의 목소리를 먼저 듣고 반영한다", type: "A" },
-        { text: "파트너와의 신뢰를 최우선으로 한다", type: "B" },
-        { text: "새로운 시도를 두려워하지 않는다", type: "C" },
-        { text: "지표로 성장을 설계한다", type: "D" },
+      name: "DISC",
+      typeOrder: ["D","I","S","C"],
+      mapLabel: { D:"주도형", I:"사교형", S:"안정형", C:"신중형" },
+      questions: [
+        {
+          id: "DISC1",
+          title: "새로운 프로젝트를 맡게 되었을 때, 나는",
+          options: [
+            { text: "목표를 빠르게 설정하고 팀을 주도한다.", type: "D" },
+            { text: "팀원들과 친밀하게 소통하며 분위기를 만든다.", type: "I" },
+            { text: "절차와 계획을 안정적으로 마련한다.", type: "S" },
+            { text: "세부 내용을 철저히 분석하고 정확성을 높인다.", type: "C" },
+          ]
+        },
+        {
+          id: "DISC2",
+          title: "누군가 내 아이디어에 의문을 제기하면, 나는",
+          options: [
+            { text: "근거를 들어 설득한다.", type: "D" },
+            { text: "상대방의 의견을 긍정적으로 받아들이며 대화를 잇는다.", type: "I" },
+            { text: "즉각 반박하지 않고 차분히 들은 뒤 답한다.", type: "S" },
+            { text: "추가 자료와 사실로 논리를 보완한다.", type: "C" },
+          ]
+        },
+        {
+          id: "DISC3",
+          title: "팀 모임에서 나는",
+          options: [
+            { text: "빠르게 결정을 내리고 방향을 제시한다.", type: "D" },
+            { text: "농담이나 사례로 분위기를 유쾌하게 만든다.", type: "I" },
+            { text: "모든 사람이 의견을 말할 수 있도록 배려한다.", type: "S" },
+            { text: "안건과 진행 순서를 정확히 지킨다.", type: "C" },
+          ]
+        },
+        {
+          id: "DISC4",
+          title: "새로운 변화를 맞이하면, 나는",
+          options: [
+            { text: "변화의 장점을 찾고 실행 계획을 세운다.", type: "D" },
+            { text: "변화를 흥미롭게 받아들이고 주변에 공유한다.", type: "I" },
+            { text: "변화가 모두에게 무리가 없도록 조율한다.", type: "S" },
+            { text: "변화에 따른 리스크를 점검한다.", type: "C" },
+          ]
+        },
+        {
+          id: "DISC5",
+          title: "다른 사람과 협업할 때, 나는",
+          options: [
+            { text: "명확한 목표와 역할을 제시한다.", type: "D" },
+            { text: "대화를 자주 하며 관계를 강화한다.", type: "I" },
+            { text: "서로의 속도와 스타일에 맞춘다.", type: "S" },
+            { text: "자료와 근거를 공유해 신뢰를 높인다.", type: "C" },
+          ]
+        },
       ]
     },
     {
-      id: "Q2",
-      title: "어떤 방식의 문제 해결에 더 (또는 덜) 가깝습니까?",
-      options: [
-        { text: "고객 여정 관점에서 재구성한다", type: "A" },
-        { text: "관계자 합의를 바탕으로 진행한다", type: "B" },
-        { text: "프로토타입으로 빠르게 검증한다", type: "C" },
-        { text: "리소스 효율을 최우선으로 잡는다", type: "D" },
-      ]
-    },
-    {
-      id: "Q3",
-      title: "내가 더 (또는 덜) 선호하는 목표 설정 방식을 고르세요.",
-      options: [
-        { text: "VOC 해결율/만족도 기반", type: "A" },
-        { text: "장기 파트너 가치 기반", type: "B" },
-        { text: "신규 기능/실험 성공률 기반", type: "C" },
-        { text: "매출/전환/비용 지표 기반", type: "D" },
+      name: "COPING",
+      typeOrder: ["P","A","M","S","E"], // 문제/회피/의미/사회/감정
+      mapLabel: { P:"문제 중심", A:"회피 중심", M:"의미 중심", S:"사회적 지지", E:"감정 중심" },
+      questions: [
+        {
+          id: "COP1",
+          title: "1. 예상치 못한 일정 변경이 생기면",
+          options: [
+            { text: "새로운 일정에 맞춰 우선순위를 다시 조정한다.", type: "P" },
+            { text: "상황이 안정될 때까지 일단 다른 일부터 처리한다.", type: "A" },
+            { text: "이 변화가 나에게 줄 긍정적인 의미를 생각해본다.", type: "M" },
+            { text: "경험이 있는 동료에게 조언을 구한다.", type: "S" },
+            { text: "짧게 산책하거나 음악을 듣고 마음을 가라앉힌다.", type: "E" },
+          ]
+        },
+        {
+          id: "COP2",
+          title: "2. 큰 실수를 했을 때",
+          options: [
+            { text: "원인을 파악하고 재발 방지 계획을 세운다.", type: "P" },
+            { text: "바로 대응하지 않고 상황을 차분히 정리한 뒤 접근한다.", type: "A" },
+            { text: "이번 경험이 장기적으로 어떤 의미가 있을지 되돌아본다.", type: "M" },
+            { text: "신뢰하는 사람에게 상황을 이야기해 본다.", type: "S" },
+            { text: "심호흡이나 명상으로 마음을 안정시킨다.", type: "E" },
+          ]
+        },
+        {
+          id: "COP3",
+          title: "3. 마감 기한이 촉박할 때",
+          options: [
+            { text: "해야 할 일을 목록화하고 순서대로 처리한다.", type: "P" },
+            { text: "먼저 처리 가능한 부분부터 착수해 흐름을 만든다.", type: "A" },
+            { text: "이 경험이 나의 성장에 줄 기회를 떠올린다.", type: "M" },
+            { text: "주변에 도움을 요청해 일을 분담한다.", type: "S" },
+            { text: "커피 한 잔이나 짧은 휴식으로 긴장을 완화한다.", type: "E" },
+          ]
+        },
+        {
+          id: "COP4",
+          title: "4. 중요한 시험이나 평가 전",
+          options: [
+            { text: "예상되는 문제를 분석해 전략적으로 준비한다.", type: "P" },
+            { text: "준비가 덜 된 부분은 잠시 두고 자신 있는 부분을 다진다.", type: "A" },
+            { text: "결과보다 배움의 과정을 소중히 여긴다.", type: "M" },
+            { text: "함께 준비할 사람을 찾아 스터디를 한다.", type: "S" },
+            { text: "긍정적인 자기 대화를 통해 자신감을 높인다.", type: "E" },
+          ]
+        },
+        {
+          id: "COP5",
+          title: "5. 동료와 의견이 엇갈릴 때",
+          options: [
+            { text: "대안을 제시하며 해결책을 찾는다.", type: "P" },
+            { text: "감정이 격해지지 않도록 대화를 잠시 멈춘다.", type: "A" },
+            { text: "서로 다른 의견의 가치와 배경을 생각한다.", type: "M" },
+            { text: "제3자의 의견을 들어 조율한다.", type: "S" },
+            { text: "잠시 자리를 비우고 마음을 진정시킨다.", type: "E" },
+          ]
+        },
+        {
+          id: "COP6",
+          title: "6. 계획이 틀어졌을 때",
+          options: [
+            { text: "즉시 대안을 마련해 새 계획을 세운다.", type: "P" },
+            { text: "우선 급하지 않은 부분부터 정리하며 방향을 잡는다.", type: "A" },
+            { text: "변화가 내게 주는 메시지를 찾는다.", type: "M" },
+            { text: "신뢰하는 사람에게 의견을 구한다.", type: "S" },
+            { text: "좋아하는 활동으로 스트레스를 완화한다.", type: "E" },
+          ]
+        },
+        {
+          id: "COP7",
+          title: "7. 기대에 미치지 못한 결과를 받았을 때",
+          options: [
+            { text: "다음에 보완할 방법을 구체화한다.", type: "P" },
+            { text: "잠시 결과를 뒤로 하고 다른 과제에 집중한다.", type: "A" },
+            { text: "이번 경험이 장기적으로 어떤 가치가 될지 생각한다.", type: "M" },
+            { text: "경험이 있는 사람과 이야기를 나눈다.", type: "S" },
+            { text: "혼자만의 시간을 가지며 감정을 정리한다.", type: "E" },
+          ]
+        },
+        {
+          id: "COP8",
+          title: "8. 갑작스러운 요청을 받았을 때",
+          options: [
+            { text: "필요한 자료나 방법을 신속히 준비한다.", type: "P" },
+            { text: "가능한 범위에서 처리할 수 있는 부분부터 진행한다.", type: "A" },
+            { text: "이번 기회가 나에게 어떤 의미를 줄 수 있는지 생각한다.", type: "M" },
+            { text: "관련 경험이 있는 사람의 도움을 받는다.", type: "S" },
+            { text: "호흡을 가다듬고 차분히 대응한다.", type: "E" },
+          ]
+        },
+        {
+          id: "COP9",
+          title: "9. 반복되는 어려움이 있을 때",
+          options: [
+            { text: "문제를 구조적으로 분석해 해결책을 찾는다.", type: "P" },
+            { text: "필요한 때까지 잠시 주제를 바꾸며 새로운 시각을 얻는다.", type: "A" },
+            { text: "이 과정이 내 가치관과 어떻게 연결되는지 생각한다.", type: "M" },
+            { text: "함께 해결할 동료를 찾는다.", type: "S" },
+            { text: "음악이나 운동으로 기분을 전환한다.", type: "E" },
+          ]
+        },
+        {
+          id: "COP10",
+          title: "10. 중요한 발표를 앞두고 긴장될 때",
+          options: [
+            { text: "자료를 점검하고 리허설을 한다.", type: "P" },
+            { text: "준비를 잠시 멈추고 시야를 넓히는 활동을 한다.", type: "A" },
+            { text: "발표 경험이 내 성장에 주는 의미를 생각한다.", type: "M" },
+            { text: "피드백을 줄 수 있는 사람에게 연습을 부탁한다.", type: "S" },
+            { text: "스트레칭과 호흡으로 긴장을 푼다.", type: "E" },
+          ]
+        },
       ]
     }
   ]
 };
 
-(function initSurvey() {
-  // 문항 렌더 (유형 배지 제거! 사용자 화면에 표시하지 않음)
-  const $qRoot = document.getElementById("surveyQuestions");
-  SURVEY_SCHEMA.questions.forEach((q, idx) => {
-    const qDiv = document.createElement("div");
-    qDiv.className = "q-card";
-    qDiv.innerHTML = `
-      <div class="q-title">Q${idx+1}. ${q.title}</div>
-      <div class="grid-head"><div>항목</div><div>가장 가깝다 (+1)</div><div>가장 멀다 (-1)</div></div>
-      <div>${q.options.map((opt, i) => `
-        <div class="option-row">
-          <div>${opt.text}</div>
-          <div><input type="radio" name="${q.id}_close" value="${i}" aria-label="closest"></div>
-          <div><input type="radio" name="${q.id}_far" value="${i}" aria-label="farthest"></div>
+(function renderSurvey() {
+  const $root = document.getElementById("surveyQuestions");
+  SURVEY_PAGE.sections.forEach((sec, sidx) => {
+    sec.questions.forEach((q, qidx) => {
+      const div = document.createElement("div");
+      div.className = "q-card";
+      div.innerHTML = `
+        <div class="q-title">${q.title}</div>
+        <div class="grid-head"><div>항목</div><div>가장 가깝다 (+1)</div><div>가장 멀다 (-1)</div></div>
+        <div>
+          ${q.options.map((opt, i) => `
+            <div class="option-row">
+              <div>${opt.text}</div>
+              <div><input type="radio" name="${q.id}_close" value="${i}"></div>
+              <div><input type="radio" name="${q.id}_far" value="${i}"></div>
+            </div>
+          `).join("")}
         </div>
-      `).join("")}</div>
-    `;
-    $qRoot.appendChild(qDiv);
+      `;
+      $root.appendChild(div);
+    });
+    // 섹션 간 여백
+    const spacer = document.createElement('div');
+    spacer.style.height = '8px';
+    $root.appendChild(spacer);
   });
-
   document.getElementById("submitSurvey").addEventListener("click", submitSurvey);
 })();
 
-function getUserContext() {
-  try {
-    const raw = localStorage.getItem("macarong_user");
-    if (!raw) return {};
-    return JSON.parse(raw) || {};
-  } catch (e) {
-    return {};
-  }
+function getCheckedIndex(name) {
+  const nodes = document.querySelectorAll(`input[name="${name}"]`);
+  for (const n of nodes) if (n.checked) return parseInt(n.value,10);
+  return null;
 }
 
 async function submitSurvey() {
-  // index.html에서 저장한 사용자 정보 활용
-  const user = getUserContext();
-  const name = (user.name || "").trim();
-  const email = (user.email || "").trim(); // 있을 수도 없을 수도 있음
-  const openText = document.getElementById("openText").value.trim();
+  // (설명형 문항이 있다면 여기서 수집. 현재는 인덱스에서 기본정보/생년월일 입력)
+  const openText = (document.getElementById("openText")?.value || "").trim();
 
-  if (!name) return alert("이전 단계에서 이름 입력이 필요합니다. 처음 화면으로 이동합니다.");
-  if (SURVEY_SCHEMA.openTextRequired && !openText) return alert("서술형 문항을 작성해주세요.");
-
-  // 점수 집계
-  const scores = { A:0, B:0, C:0, D:0 };
-  const answers = [];
-
-  for (const q of SURVEY_SCHEMA.questions) {
-    const closeIdx = getCheckedIndex(`${q.id}_close`);
-    const farIdx   = getCheckedIndex(`${q.id}_far`);
-
-    if (closeIdx === null || farIdx === null) {
-      return alert("각 문항마다 ‘가장 가깝다’와 ‘가장 멀다’를 모두 선택해주세요.");
-    }
-    if (closeIdx === farIdx) {
-      return alert("같은 항목을 동시에 선택할 수 없습니다.");
-    }
-
-    const closeType = q.options[closeIdx].type;
-    const farType   = q.options[farIdx].type;
-    scores[closeType] += 1;   // +1
-    scores[farType]   -= 1;   // -1
-
-    answers.push({
-      questionId: q.id,
-      closest: { index: closeIdx, text: q.options[closeIdx].text, type: closeType },
-      farthest:{ index: farIdx,  text: q.options[farIdx].text,  type: farType }
-    });
-  }
-
-  // 최고/최저 유형 계산
-  const typeOrder = ["A","B","C","D"]; // 동점 우선순위
-  const sorted = typeOrder.map(t => ({t, v:scores[t]}))
-                          .sort((a,b)=> b.v - a.v || typeOrder.indexOf(a.t)-typeOrder.indexOf(b.t));
-  const topType = sorted[0].t;
-  const lowType = sorted[sorted.length-1].t;
-
-  const payload = {
+  const result = { 
     id: Date.now(),
-    name, email,
     openText,
-    scores,          // {A,B,C,D}
-    topType,         // 최상위 유형
-    lowType,         // 최하위 유형
-    answers,         // 문항별 선택내역
     createdAt: new Date().toISOString(),
+    // 두 섹션 결과를 분리 저장
+    disc: null,
+    coping: null
   };
 
-  // Firestore 저장 (백업: localStorage)
+  for (const sec of SURVEY_PAGE.sections) {
+    const scores = {};
+    sec.typeOrder.forEach(t => scores[t] = 0);
+    const answers = [];
+
+    for (const q of sec.questions) {
+      const closeIdx = getCheckedIndex(`${q.id}_close`);
+      const farIdx   = getCheckedIndex(`${q.id}_far`);
+      if (closeIdx === null || farIdx === null) {
+        return alert("모든 문항에서 ‘가장 가깝다’와 ‘가장 멀다’를 각각 선택해주세요.");
+      }
+      if (closeIdx === farIdx) {
+        return alert("같은 항목을 동시에 선택할 수 없습니다.");
+      }
+      const closeType = q.options[closeIdx].type;
+      const farType   = q.options[farIdx].type;
+      scores[closeType] += 1;
+      scores[farType]   -= 1;
+      answers.push({
+        questionId: q.id,
+        closest: { index: closeIdx, text: q.options[closeIdx].text, type: closeType },
+        farthest:{ index: farIdx,  text: q.options[farIdx].text,  type: farType }
+      });
+    }
+
+    const top = sec.typeOrder
+      .map(t => ({t, v:scores[t]}))
+      .sort((a,b)=> b.v - a.v || sec.typeOrder.indexOf(a.t)-sec.typeOrder.indexOf(b.t))[0];
+    const low = sec.typeOrder
+      .map(t => ({t, v:scores[t]}))
+      .sort((a,b)=> a.v - b.v || sec.typeOrder.indexOf(a.t)-sec.typeOrder.indexOf(b.t))[0];
+
+    const packed = {
+      scores,                 // {D/I/S/C} 또는 {P/A/M/S/E}
+      topType: top.t, topScore: top.v,
+      lowType: low.t, lowScore: low.v,
+      answers
+    };
+
+    if (sec.name === "DISC")   result.disc   = packed;
+    if (sec.name === "COPING") result.coping = packed;
+  }
+
+  // 사용자 컨텍스트 (index에서 저장한 이름/이메일/생년월과 합쳐 사용)
+  const userRaw = localStorage.getItem("macarong_user");
+  let userCtx = {};
+  try { userCtx = userRaw ? JSON.parse(userRaw) : {}; } catch(e){}
+
+  const payload = {
+    ...result,
+    name: userCtx.name || "",
+    email: userCtx.email || "",
+    birth: userCtx.birth || "",       // index에서 yyyymmdd
+    surveyCompleted: true
+  };
+
   try {
     if (window.firestoreManager) {
       await window.firestoreManager.saveSurvey(payload);
@@ -139,15 +298,11 @@ async function submitSurvey() {
     localStorage.setItem("macarong_surveys", JSON.stringify(arr));
   }
 
-  // 사용자 컨텍스트 업데이트 → 설문 완료 표시
-  localStorage.setItem("macarong_user", JSON.stringify({ ...user, surveyCompleted:true }));
+  // 쿠키/LS 플래그로 시뮬 시작 허용
+  localStorage.setItem("macarong_user", JSON.stringify({
+    ...userCtx, surveyCompleted:true
+  }));
 
   alert("수고하셨습니다. 이어서 시뮬레이션 검사가 진행됩니다.");
   location.href = "simulator.html";
-}
-
-function getCheckedIndex(name) {
-  const nodes = document.querySelectorAll(`input[name="${name}"]`);
-  for (const n of nodes) if (n.checked) return parseInt(n.value,10);
-  return null;
 }
