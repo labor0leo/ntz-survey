@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>시작 페이지</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="modal-overlay" id="startModal">
+    <div class="modal-content">
+        <h3>시작하기</h3>
+        <p>이름과 생년월일을 입력해주세요.</p>
+        <div class="input-group">
+            <label for="name">이름</label>
+            <input type="text" id="name" placeholder="홍길동">
+        </div>
+        <div class="input-group">
+            <label for="birth">생년월일</label>
+            <input type="date" id="birth">
+        </div>
+        <div class="modal-buttons">
+            <button class="start-button" id="startSurvey">설문 시작</button>
+        </div>
+    </div>
+</div>
+
+<script src="js/index.js"></script>
+</body>
+</html>
