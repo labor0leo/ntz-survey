@@ -279,8 +279,8 @@ const SURVEY_PAGE = {
     const sectionTitle = document.createElement("div");
     sectionTitle.className = "q-card";
     sectionTitle.style.background = "var(--bg-primary)";
-    sectionTitle.innerHTML = `<div class="q-title" style="margin:0 0 2px 0;">${sec.name === "DISC" ? "DISC 유형" : sec.name === "COPING" ? "스트레스 대처" : "동기·가치관"}</div>
-      <div class="scenario-info" style="margin-bottom:6px">각 문항에서 '가장 가깝다' 1개와 '가장 멀다' 1개를 선택하세요.</div>`;
+    sectionTitle.innerHTML = `<div class="q-title" style="margin:0 0 2px 0;">${sec.name === "DISC" ? "Part 1" : sec.name === "COPING" ? "Part 2" : "Part 3"}</div>
+      <div class="scenario-info" style="margin-bottom:6px">각 문항에서 자신과 가장 가까운 항목 1개와 가장 멀다고 느껴지는 1개를 선택하세요.</div>`;
     $root.appendChild(sectionTitle);
 
     sec.questions.forEach((q) => {
