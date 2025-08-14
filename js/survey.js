@@ -37,6 +37,15 @@ const SURVEY_SCHEMA = {
 };
 
 (function initSurvey() {
+  // 사용자 컨텍스트 확인 (index에서 저장)
+  const userName = localStorage.getItem("userName");
+  const userBirth = localStorage.getItem("userBirth");
+  if (!userName || !userBirth) {
+    alert("이름/생년월일 정보가 없어 시작 페이지로 돌아갑니다.");
+    location.href = "index.html";
+    return;
+  }
+
   // 렌더
   const $qRoot = document.getElementById("surveyQuestions");
   SURVEY_SCHEMA.questions.forEach((q, idx) => {
@@ -56,16 +65,19 @@ const SURVEY_SCHEMA = {
     $qRoot.appendChild(qDiv);
   });
 
-  // 제출
   document.getElementById("submitSurvey").addEventListener("click", submitSurvey);
 })();
 
 async function submitSurvey() {
-  const name = document.getElementById("name").value.trim();
-  const email = document.getElementById("email").value.trim();
+  const userName = localStorage.getItem("userName");
+  const userBirth = localStorage.getItem("userBirth");
   const openText = document.getElementById("openText").value.trim();
 
-  if (!name) return alert("이름을 입력해주세요.");
+  if (!userName || !userBirth) {
+    alert("이름/생년월일 정보가 없어 시작 페이지로 돌아갑니다.");
+    location.href = "index.html";
+    return;
+  }
   if (SURVEY_SCHEMA.openTextRequired && !openText) return alert("서술형 문항을 작성해주세요.");
 
   // 점수 집계
@@ -85,8 +97,8 @@ async function submitSurvey() {
 
     const closeType = q.options[closeIdx].type;
     const farType   = q.options[farIdx].type;
-    scores[closeType] += 1;   // +1
-    scores[farType]   -= 1;   // -1
+    scores[closeType] += 1;
+    scores[farType]   -= 1;
 
     answers.push({
       questionId: q.id,
@@ -102,11 +114,10 @@ async function submitSurvey() {
 
   const payload = {
     id: Date.now(),
-    name, email,
+    name: userName,
+    birth: userBirth,
     openText,
-    scores,          // {A,B,C,D}
-    topType,         // 최종 유형
-    answers,         // 문항별 선택내역
+    scores, topType, answers,
     createdAt: new Date().toISOString(),
   };
 
@@ -126,10 +137,10 @@ async function submitSurvey() {
   }
 
   // 사용자 컨텍스트 저장 → 시뮬 즉시 시작
-  localStorage.setItem("macarong_user", JSON.stringify({ name, email, surveyCompleted:true }));
+  localStorage.setItem("macarong_user", JSON.stringify({ name: userName, birth: userBirth, surveyCompleted:true }));
 
   alert("수고하셨습니다. 이어서 시뮬레이션 검사가 진행됩니다.");
-  location.href = "index.html";
+  location.href = "simulator.html";
 }
 
 function getCheckedIndex(name) {
