@@ -29,7 +29,7 @@
 
 body {
     font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #3664e0 0%, #244eb5 100%);
     min-height: 100vh;
     color: var(--text-primary);
 }
